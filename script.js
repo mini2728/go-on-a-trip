@@ -8,10 +8,10 @@ document.addEventListener('DOMContentLoaded', () => {
     
     const PRICING = {
         ROOM_EXTRA: {
-            standard: 0,
-            double: 7800,
-            quad: 11400,
-            family: 19500
+            '標準分配': 0,
+            '稻香雙人房': 7800,
+            '水漾四人房': 11400,
+            '米米親子房': 19500
         },
         TRANSPORT_FULL: {
             banqiao: 1904,
@@ -121,7 +121,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const roomType = document.getElementById('roomType').value;
         const roomNote = document.getElementById('roomNote').value;
         const empHeight = parseFloat(document.getElementById('empHeight').value) || 0;
-        const isUpgraded = (roomType !== 'standard');
+        
+        // 修正升等判斷 (依據新的中文 Value)
+        const isUpgraded = (roomType !== '標準分配');
         const familyElements = familyList.querySelectorAll('.family-item');
         const hasFamily = familyElements.length > 0;
 
@@ -135,7 +137,6 @@ document.addEventListener('DOMContentLoaded', () => {
             dietStats: { meat: 0, veg: 0 }
         };
 
-        // 統計葷素
         if (empDiet === '葷食') finalData.dietStats.meat++; else finalData.dietStats.veg++;
 
         const roomExtraValue = PRICING.ROOM_EXTRA[roomType] || 0;
