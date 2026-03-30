@@ -330,8 +330,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 提交功能
     submitBtn.addEventListener('click', async () => {
-        // 先執行原生表單驗證 (只有選擇參加時才需要驗證內部欄位)
-        if (participationStatus.value === 'participate' && !registrationForm.reportValidity()) {
+        // 先執行原生表單驗證
+        if (!registrationForm.reportValidity()) {
             return;
         }
 
