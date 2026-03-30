@@ -61,22 +61,31 @@
                         <input type="date" id="joinDate" value="2025-01-01" required>
                     </div>
 
-                    <div class="form-group">
-                        <label for="departure">出發地點 (來回票價)</label>
-                        <select id="departure">
-                            <option value="banqiao">板橋 (1,904元)</option>
-                            <option value="taichung">台中 (1,964元)</option>
-                            <option value="kaohsiung">高雄 (970元)</option>
-                        </select>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="departure">出發地點 (來回票價)</label>
+                            <select id="departure">
+                                <option value="板橋">板橋 (1,904元)</option>
+                                <option value="台中">台中 (1,964元)</option>
+                                <option value="高雄">高雄 (970元)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="empDiet">飲食習慣</label>
+                            <select id="empDiet">
+                                <option value="葷食">葷食 </option>
+                                <option value="素食">素食 </option>
+                            </select>
+                        </div>
                     </div>
 
                     <div class="form-group">
                         <label for="roomType">房型選擇 (3晚總價)</label>
                         <select id="roomType">
-                            <option value="standard">標準分配 (按人數排房)</option>
-                            <option value="double">稻香雙人房 (+7,800元/間)</option>
-                            <option value="quad">水漾四人房 (+11,400元/間)</option>
-                            <option value="family">米米親子房 (+19,500元/間)</option>
+                            <option value="標準分配">標準分配 (按人數排房)</option>
+                            <option value="稻香雙人房">稻香雙人房 (+7,800元/間)</option>
+                            <option value="水漾四人房">水漾四人房 (+11,400元/間)</option>
+                            <option value="米米親子房">米米親子房 (+19,500元/間)</option>
                         </select>
                         <div class="room-info" style="margin-top: 10px; font-size: 0.85rem;">
                             <div style="display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 8px;">
@@ -88,7 +97,7 @@
                                     style="color: #6366f1; text-decoration: none;">🔗 米米親子房</a>
                             </div>
                             <label for="roomNote" style="display: block; margin-bottom: 5px;">房型特殊需求
-                                (例如：嬰兒床、澡盆...)</label>
+                                (例如：嬰兒床、澡盆、消毒鍋...)</label>
                             <textarea id="roomNote" rows="2"
                                 style="width: 100%; border-radius: 6px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: white; padding: 8px; font-family: inherit; resize: none;"></textarea>
                         </div>

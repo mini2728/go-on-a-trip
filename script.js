@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const summaryContent = document.getElementById('summaryContent');
     const totalBar = document.getElementById('totalBar');
     const submitBtn = document.getElementById('submitBtn');
-
+    
     const PRICING = {
         ROOM_EXTRA: {
             standard: 0,
@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const familyItem = document.createElement('div');
         familyItem.className = 'family-item';
         familyItem.innerHTML = `
-            <div class="form-row" style="grid-template-columns: 2fr 1fr 1fr auto; width: 100%; align-items: center; margin-bottom: 0;">
+            <div class="form-row" style="grid-template-columns: 2fr 1fr 1fr 1.5fr auto; width: 100%; align-items: center; margin-bottom: 0; gap: 8px;">
                 <input type="text" placeholder="姓名/稱謂" class="f-name">
                 <div class="input-unit">
                     <input type="number" placeholder="年齡" class="f-age" min="0" max="100" value="30">
@@ -37,6 +37,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     <input type="number" placeholder="身高" class="f-height" min="0" max="250" value="165">
                     <span>cm</span>
                 </div>
+                <select class="f-diet" style="padding: 10px; border-radius: 8px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: white;">
+                    <option value="葷食">葷食</option>
+                    <option value="素食">素食</option>
+                </select>
                 <button type="button" class="btn-danger remove-btn">移除</button>
             </div>
         `;
@@ -46,7 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
             calculateCost();
         });
 
-        familyItem.querySelectorAll('input').forEach(el => {
+        familyItem.querySelectorAll('input, select').forEach(el => {
             el.addEventListener('change', calculateCost);
         });
 
@@ -80,12 +84,11 @@ document.addEventListener('DOMContentLoaded', () => {
         // --- 核心收費細項 ---
         addDetail('遊覽車車資', age <= 2 ? 0 : 1314);
         addDetail('旅平險', age <= 2 ? 100 : (age <= 12 ? 300 : 400));
-
-        // 住宿費：若房型有升等，則家屬的基礎住宿費免除 (0元)
+        
         let hotelFee = (age <= 2) ? 0 : 3900;
         if (isFamily && isUpgraded) hotelFee = 0;
         addDetail('住宿費 (3晚)', hotelFee);
-
+        
         const fullTicket = PRICING.TRANSPORT_FULL[departure] || 0;
         const transp = height < 115 ? 0 : (height <= 150 ? Math.round(fullTicket * 0.5) : fullTicket);
         addDetail(`來回交通費 (${departure})`, transp);
@@ -114,6 +117,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const joinDate = document.getElementById('joinDate').value;
         const seniorityMonths = calculateSeniority(joinDate);
         const departure = document.getElementById('departure').value;
+        const empDiet = document.getElementById('empDiet').value;
         const roomType = document.getElementById('roomType').value;
         const roomNote = document.getElementById('roomNote').value;
         const empHeight = parseFloat(document.getElementById('empHeight').value) || 0;
@@ -125,10 +129,14 @@ document.addEventListener('DOMContentLoaded', () => {
         let totalSubsidy = 0;
         let summaryLines = [];
         let finalData = {
-            employee: { name: empName, joinDate, seniority: seniorityMonths, height: empHeight, departure, roomType, roomNote },
+            employee: { name: empName, joinDate, seniority: seniorityMonths, height: empHeight, departure, diet: empDiet, roomType, roomNote },
             families: [],
-            totals: {}
+            totals: {},
+            dietStats: { meat: 0, veg: 0 }
         };
+
+        // 統計葷素
+        if (empDiet === '葷食') finalData.dietStats.meat++; else finalData.dietStats.veg++;
 
         const roomExtraValue = PRICING.ROOM_EXTRA[roomType] || 0;
         const factor = seniorityMonths >= 12 ? 1 : (seniorityMonths >= 3 ? (seniorityMonths / 12) : 0);
@@ -136,31 +144,25 @@ document.addEventListener('DOMContentLoaded', () => {
         // 1. 員工本人
         const empData = getParticipantCost(30, empHeight, departure, roomExtraValue, false, isUpgraded);
         totalProjectCost += empData.total;
-
-        // --- 補貼規則 (回歸原始規則 + 房型扣抵) ---
-        // A. 基礎行程：100% * factor
+        
         const baseExclUpgrade = empData.total - roomExtraValue;
         let empBaseSubsidy = Math.round(baseExclUpgrade * factor);
-
-        // B. 房型加價折抵：滿一年扣 3900 (factor), 滿三年加扣 1950
+        
         let empRoomDiscount = 0;
         if (isUpgraded) {
             empRoomDiscount += Math.round(3900 * factor);
-            // 滿三年且有帶家屬，才額外扣抵 1950
-            if (seniorityMonths >= 36 && hasFamily) {
-                empRoomDiscount += 1950;
-            }
+            if (seniorityMonths >= 36 && hasFamily) empRoomDiscount += 1950;
         }
         let empSubsidy = empBaseSubsidy + Math.min(roomExtraValue, empRoomDiscount);
         totalSubsidy += empSubsidy;
-
+        
         finalData.employee.total = empData.total;
         finalData.employee.subsidy = empSubsidy;
         finalData.employee.details = empData.details;
 
         summaryLines.push(`
             <div class="summary-group">
-                <div class="summary-item main-line"><span class="label">員工本人 (身高 ${empHeight}cm)</span><span class="value">${empData.total.toLocaleString()}元</span></div>
+                <div class="summary-item main-line"><span class="label">員工本人 (${empDiet} / ${empHeight}cm)</span><span class="value">${empData.total.toLocaleString()}元</span></div>
                 <div class="details-list">
                     ${empData.details.map(d => `<div>${d.label}: ${d.val.toLocaleString()}元</div>`).join('')}
                 </div>
@@ -174,21 +176,22 @@ document.addEventListener('DOMContentLoaded', () => {
             const name = item.querySelector('.f-name').value || `家屬 ${index + 1}`;
             const age = parseInt(item.querySelector('.f-age').value) || 0;
             const height = parseFloat(item.querySelector('.f-height').value) || 0;
+            const diet = item.querySelector('.f-diet').value;
+            
+            if (diet === '葷食') finalData.dietStats.meat++; else finalData.dietStats.veg++;
 
             const fData = getParticipantCost(age, height, departure, 0, true, isUpgraded);
             totalProjectCost += fData.total;
 
             let fSubsidy = 0;
-            if (index === 0 && seniorityMonths >= 36) {
-                fSubsidy = Math.round(fData.total * 0.5);
-            }
+            if (index === 0 && seniorityMonths >= 36) fSubsidy = Math.round(fData.total * 0.5);
             totalSubsidy += fSubsidy;
 
-            finalData.families.push({ name, age, height, total: fData.total, subsidy: fSubsidy, details: fData.details });
+            finalData.families.push({ name, age, height, diet, total: fData.total, subsidy: fSubsidy, details: fData.details });
 
             summaryLines.push(`
                 <div class="summary-group">
-                    <div class="summary-item main-line"><span class="label">${name} (${age}歲 / ${height}cm)</span><span class="value">${fData.total.toLocaleString()}元</span></div>
+                    <div class="summary-item main-line"><span class="label">${name} (${diet} / ${age}歲 / ${height}cm)</span><span class="value">${fData.total.toLocaleString()}元</span></div>
                     <div class="details-list">
                         ${fData.details.map(d => `<div>${d.label}: ${d.val.toLocaleString()}元</div>`).join('')}
                     </div>
@@ -219,17 +222,17 @@ document.addEventListener('DOMContentLoaded', () => {
         const payloadStr = submitBtn.dataset.payload;
         if (!payloadStr) return;
         const data = JSON.parse(payloadStr);
-
+        
         const jsonStr = JSON.stringify(data, null, 2);
         const blob = new Blob([jsonStr], { type: 'application/json' });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = `員工旅遊報名_${data.employee.name || '未命名'}_${new Date().getTime()}.json`;
+        a.download = `員工旅遊報名_${data.employee.name}.json`;
         a.click();
         URL.revokeObjectURL(url);
 
-        const SLACK_WEBHOOK_URL = 'https://line-bot-nodejs.mini14091309.workers.dev/slack';
+        const SLACK_WEBHOOK_URL = 'https://line-bot-nodejs.mini14091309.workers.dev/slack'; 
         const slackMessage = {
             text: `📢 *收到新的員工旅遊報名紀錄*`,
             attachments: [
@@ -238,6 +241,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     text: "```\n" + JSON.stringify(data, null, 2) + "\n```",
                     fields: [
                         { title: "員工姓名", value: data.employee.name || "未填寫", short: true },
+                        { title: "飲食統計", value: `葷：${data.dietStats.meat} 位 / 素：${data.dietStats.veg} 位`, short: true },
                         { title: "房型需求", value: data.employee.roomNote || "無", short: false },
                         { title: "補助後應付總額", value: `${data.totals.finalPay.toLocaleString()} 元`, short: true }
                     ]
