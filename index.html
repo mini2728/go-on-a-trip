@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2026 員工旅遊報名與費用統計</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="background-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <main class="container">
+        <header class="header">
+            <h1>2026 員工旅遊報名系統</h1>
+            <p class="subtitle">探索台東之美 • 部落深度體驗</p>
+        </header>
+
+        <section class="itinerary-section card">
+            <h2><span class="icon">📅</span> 行程規劃表</h2>
+            <div class="itinerary-image-container">
+                <img src="螢幕擷取畫面 2026-03-29 194429.png" alt="員工旅遊行程表" class="itinerary-img">
+            </div>
+            <div class="itinerary-notes">
+                <p><strong>費用說明：</strong> 包含 4 天 3 夜行程、住宿、餐飲、保險與部落體驗。</p>
+                <p><strong>到職比例補貼：</strong> 未滿 3 個月需自費；滿 1 年全額補貼；不滿 1 年依到職月份比例補貼。</p>
+            </div>
+        </section>
+
+        <div class="grid-layout">
+            <section class="form-section card">
+                <h2><span class="icon">📝</span> 填寫報名資訊</h2>
+                <form id="registrationForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="empName">員工姓名</label>
+                            <input type="text" id="empName" placeholder="請輸入姓名" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="empHeight">身高 (cm)</label>
+                            <input type="number" id="empHeight" value="170" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="joinDate">到職日期</label>
+                        <input type="date" id="joinDate" value="2025-01-01" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="departure">出發地點 (來回票價)</label>
+                        <select id="departure">
+                            <option value="banqiao">板橋 (1,904元)</option>
+                            <option value="taichung">台中 (1,964元)</option>
+                            <option value="kaohsiung">高雄 (970元)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="roomType">房型選擇 (3晚總價)</label>
+                        <select id="roomType">
+                            <option value="standard">標準分配 (按人數排房)</option>
+                            <option value="double">稻香雙人房 (+7,800元/間)</option>
+                            <option value="quad">水漾四人房-有浴缸 (+11,400元/間)</option>
+                            <option value="family">米米親子房 (+19,500元/間)</option>
+                        </select>
+                        <small class="note">*選擇特定房型將以該房型總價計算，並加上活動費用。</small>
+                    </div>
+
+                    <div class="family-section">
+                        <h3>家屬資訊 <button type="button" id="addFamilyBtn" class="btn-secondary">+ 新增家屬</button></h3>
+                        <div id="familyList">
+                            <!-- 家屬清單動態生成 -->
+                        </div>
+                    </div>
+                </form>
+            </section>
+
+            <section class="summary-section card">
+                <h2><span class="icon">💰</span> 費用統計結果</h2>
+                <div class="summary-content" id="summaryContent">
+                    <div class="empty-state">請填寫左側表單計算費用</div>
+                </div>
+                <div class="total-bar" id="totalBar" style="display: none;">
+                    <div class="total-item">
+                        <span>總計費用 (含家屬)</span>
+                        <span class="price" id="totalPrice">0</span>
+                    </div>
+                    <div class="total-item subsidy">
+                        <span>公司補貼總額</span>
+                        <span class="price" id="totalSubsidy">0</span>
+                    </div>
+                    <div class="total-item final">
+                        <span>員工需負擔金額</span>
+                        <span class="price highlight" id="empFinalPay">0</span>
+                    </div>
+                </div>
+                <button type="button" id="submitBtn" class="btn-primary" style="margin-top: 25px; width: 100%; display: none;">
+                    <span class="icon">🚀</span> 提交登記資料
+                </button>
+            </section>
+        </div>
+
+        <footer class="footer">
+            <p>&copy; 2024 員工旅遊籌備小組</p>
+        </footer>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
