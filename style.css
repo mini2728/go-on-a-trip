@@ -28,12 +28,11 @@ body {
 }
 
 .f-name {
-    width: 150px;
+    width: 100%;
 }
 
-.f-age,
-.f-height {
-    width: 100px;
+.f-birthday {
+    flex: 1;
 }
 
 /* Background Blobs */
@@ -257,11 +256,8 @@ select:focus {
     border: 1px solid var(--card-border);
     border-radius: 12px;
     padding: 15px;
-    margin-bottom: 15px;
-    display: grid;
-    grid-template-columns: 1fr 1fr auto;
-    gap: 10px;
-    align-items: center;
+    margin-bottom: 20px;
+    display: block; /* 改為 block，由內部 DIV 個別處理 Grid */
     animation: slideIn 0.3s ease-out;
 }
 
