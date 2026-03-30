@@ -14,9 +14,9 @@ document.addEventListener('DOMContentLoaded', () => {
             '米米親子房': 19500
         },
         TRANSPORT_FULL: {
-            banqiao: 1904,
-            taichung: 1964,
-            kaohsiung: 970
+            '板橋': 1904,
+            '台中': 1964,
+            '高雄': 970
         }
     };
 
@@ -91,7 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         const fullTicket = PRICING.TRANSPORT_FULL[departure] || 0;
         const transp = height < 115 ? 0 : (height <= 150 ? Math.round(fullTicket * 0.5) : fullTicket);
-        addDetail(`來回交通費 (${departure})`, transp);
+        addDetail(`台鐵來回票 (${departure})`, transp);
 
         addDetail('飯店宴會廳午餐 (D1)', age <= 2 ? 0 : 770);
         addDetail('東河部落屋竹筏體驗 (D1)', age <= 2 ? 0 : (age < 8 ? 150 : 400));
@@ -121,8 +121,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const roomType = document.getElementById('roomType').value;
         const roomNote = document.getElementById('roomNote').value;
         const empHeight = parseFloat(document.getElementById('empHeight').value) || 0;
-        
-        // 修正升等判斷 (依據新的中文 Value)
         const isUpgraded = (roomType !== '標準分配');
         const familyElements = familyList.querySelectorAll('.family-item');
         const hasFamily = familyElements.length > 0;
@@ -134,10 +132,12 @@ document.addEventListener('DOMContentLoaded', () => {
             employee: { name: empName, joinDate, seniority: seniorityMonths, height: empHeight, departure, diet: empDiet, roomType, roomNote },
             families: [],
             totals: {},
-            dietStats: { meat: 0, veg: 0 }
+            dietStats: { meat: 0, veg: 0 },
+            ticketStats: { '板橋': 0, '台中': 0, '高雄': 0 }
         };
 
         if (empDiet === '葷食') finalData.dietStats.meat++; else finalData.dietStats.veg++;
+        if (departure in finalData.ticketStats) finalData.ticketStats[departure]++;
 
         const roomExtraValue = PRICING.ROOM_EXTRA[roomType] || 0;
         const factor = seniorityMonths >= 12 ? 1 : (seniorityMonths >= 3 ? (seniorityMonths / 12) : 0);
@@ -180,6 +180,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const diet = item.querySelector('.f-diet').value;
             
             if (diet === '葷食') finalData.dietStats.meat++; else finalData.dietStats.veg++;
+            if (departure in finalData.ticketStats) finalData.ticketStats[departure]++;
 
             const fData = getParticipantCost(age, height, departure, 0, true, isUpgraded);
             totalProjectCost += fData.total;
@@ -243,6 +244,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     fields: [
                         { title: "員工姓名", value: data.employee.name || "未填寫", short: true },
                         { title: "飲食統計", value: `葷：${data.dietStats.meat} 位 / 素：${data.dietStats.veg} 位`, short: true },
+                        { title: "票務統計", value: `板橋：${data.ticketStats['板橋']} / 台中：${data.ticketStats['台中']} / 高雄：${data.ticketStats['高雄']}`, short: false },
                         { title: "房型需求", value: data.employee.roomNote || "無", short: false },
                         { title: "補助後應付總額", value: `${data.totals.finalPay.toLocaleString()} 元`, short: true }
                     ]
