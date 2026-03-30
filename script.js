@@ -215,7 +215,7 @@ document.addEventListener('DOMContentLoaded', () => {
         URL.revokeObjectURL(url);
 
         // 2. 發送至 Slack (使用 Webhook)
-        const SLACK_WEBHOOK_URL = 'https://hooks.slack.com/services/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';
+        const SLACK_WEBHOOK_URL = 'https://hooks.slack.com/services/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';
 
         const slackMessage = {
             text: `📢 *收到新的員工旅遊報名紀錄*`,
