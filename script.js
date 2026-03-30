@@ -93,7 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
         addDetail('東河部落屋竹筏體驗 (D1)', age <= 2 ? 0 : (age < 8 ? 150 : 400));
         addDetail('部落晚宴 (D1)', age <= 2 ? 0 : 650);
         addDetail('江賢二藝術園區門票 (D2)', age < 7 ? 0 : 250);
-        addDetail('達麓岸/海角咖啡午餐 (D2)', age < 12 ? 0 : 600);
+        addDetail('達麓岸午餐 (D2)', age <= 3 ? 0 : 350);
         addDetail('成功漁港賞鯨費用 (D2)', age < 5 ? 300 : (age <= 12 ? 650 : 850));
         addDetail('佳濱成功旗魚海鮮晚餐 (D2)', age <= 2 ? 0 : 600);
         addDetail('達魯瑪克深度部落體驗 (D3)', age <= 3 ? 0 : (age <= 12 ? 2100 : 2780));
@@ -215,7 +215,7 @@ document.addEventListener('DOMContentLoaded', () => {
         URL.revokeObjectURL(url);
 
         // 2. 發送至 Slack (使用 Webhook)
-        const SLACK_WEBHOOK_URL = 'https://hooks.slack.com/services/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';
+        const SLACK_WEBHOOK_URL = 'https://line-bot-nodejs.mini14091309.workers.dev/slack';
 
         const slackMessage = {
             text: `📢 *收到新的員工旅遊報名紀錄*`,
