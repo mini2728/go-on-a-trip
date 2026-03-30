@@ -55,7 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // 監控主要欄位變動
-    registrationForm.querySelectorAll('input, select').forEach(el => {
+    registrationForm.querySelectorAll('input, select, textarea').forEach(el => {
         el.addEventListener('change', calculateCost);
     });
 
@@ -81,6 +81,7 @@ document.addEventListener('DOMContentLoaded', () => {
         addDetail('遊覽車車資', age <= 2 ? 0 : 1314);
         addDetail('旅平險', age <= 2 ? 100 : (age <= 12 ? 300 : 400));
 
+        // 住宿費：若房型有升等，則家屬的基礎住宿費免除 (0元)
         let hotelFee = (age <= 2) ? 0 : 3900;
         if (isFamily && isUpgraded) hotelFee = 0;
         addDetail('住宿費 (3晚)', hotelFee);
@@ -114,14 +115,17 @@ document.addEventListener('DOMContentLoaded', () => {
         const seniorityMonths = calculateSeniority(joinDate);
         const departure = document.getElementById('departure').value;
         const roomType = document.getElementById('roomType').value;
+        const roomNote = document.getElementById('roomNote').value;
         const empHeight = parseFloat(document.getElementById('empHeight').value) || 0;
         const isUpgraded = (roomType !== 'standard');
+        const familyElements = familyList.querySelectorAll('.family-item');
+        const hasFamily = familyElements.length > 0;
 
         let totalProjectCost = 0;
         let totalSubsidy = 0;
         let summaryLines = [];
         let finalData = {
-            employee: { name: empName, joinDate, seniority: seniorityMonths, height: empHeight, departure, roomType },
+            employee: { name: empName, joinDate, seniority: seniorityMonths, height: empHeight, departure, roomType, roomNote },
             families: [],
             totals: {}
         };
@@ -132,9 +136,22 @@ document.addEventListener('DOMContentLoaded', () => {
         // 1. 員工本人
         const empData = getParticipantCost(30, empHeight, departure, roomExtraValue, false, isUpgraded);
         totalProjectCost += empData.total;
-        let empBaseSubsidy = Math.round((empData.total - roomExtraValue) * factor);
-        let empRoomSubsidy = Math.round(Math.min(roomExtraValue, 3900) * factor);
-        let empSubsidy = empBaseSubsidy + empRoomSubsidy;
+
+        // --- 補貼規則 (回歸原始規則 + 房型扣抵) ---
+        // A. 基礎行程：100% * factor
+        const baseExclUpgrade = empData.total - roomExtraValue;
+        let empBaseSubsidy = Math.round(baseExclUpgrade * factor);
+
+        // B. 房型加價折抵：滿一年扣 3900 (factor), 滿三年加扣 1950
+        let empRoomDiscount = 0;
+        if (isUpgraded) {
+            empRoomDiscount += Math.round(3900 * factor);
+            // 滿三年且有帶家屬，才額外扣抵 1950
+            if (seniorityMonths >= 36 && hasFamily) {
+                empRoomDiscount += 1950;
+            }
+        }
+        let empSubsidy = empBaseSubsidy + Math.min(roomExtraValue, empRoomDiscount);
         totalSubsidy += empSubsidy;
 
         finalData.employee.total = empData.total;
@@ -147,12 +164,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 <div class="details-list">
                     ${empData.details.map(d => `<div>${d.label}: ${d.val.toLocaleString()}元</div>`).join('')}
                 </div>
-                <div class="summary-item subsidy-line"><span class="label">└ 員工補貼 (${Math.round(factor * 100)}%)</span><span class="value">-${empSubsidy.toLocaleString()}元</span></div>
+                <div class="summary-item subsidy-line"><span class="label">└ 公司補貼 (${Math.round(factor * 100)}%)</span><span class="value">-${empSubsidy.toLocaleString()}元</span></div>
+                ${isUpgraded ? `<div style="font-size:0.7rem; color:#aaa; margin-top:-5px; padding-left:15px;">(房型折抵: ${Math.min(roomExtraValue, empRoomDiscount).toLocaleString()}元)</div>` : ''}
             </div>
         `);
 
         // 2. 家屬
-        const familyElements = familyList.querySelectorAll('.family-item');
         familyElements.forEach((item, index) => {
             const name = item.querySelector('.f-name').value || `家屬 ${index + 1}`;
             const age = parseInt(item.querySelector('.f-age').value) || 0;
@@ -161,8 +178,10 @@ document.addEventListener('DOMContentLoaded', () => {
             const fData = getParticipantCost(age, height, departure, 0, true, isUpgraded);
             totalProjectCost += fData.total;
 
-            let fMaxPossible = (index === 0) ? 1950 : 0;
-            let fSubsidy = Math.min(fData.total, Math.round(fMaxPossible * factor));
+            let fSubsidy = 0;
+            if (index === 0 && seniorityMonths >= 36) {
+                fSubsidy = Math.round(fData.total * 0.5);
+            }
             totalSubsidy += fSubsidy;
 
             finalData.families.push({ name, age, height, total: fData.total, subsidy: fSubsidy, details: fData.details });
@@ -173,7 +192,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div class="details-list">
                         ${fData.details.map(d => `<div>${d.label}: ${d.val.toLocaleString()}元</div>`).join('')}
                     </div>
-                    ${fSubsidy > 0 ? `<div class="summary-item subsidy-line"><span class="label">└ 家屬住宿補助 (限額 ${Math.round(fMaxPossible * factor)})</span><span class="value">-${fSubsidy.toLocaleString()}元</span></div>` : ''}
+                    ${fSubsidy > 0 ? `<div class="summary-item subsidy-line"><span class="label">└ 家屬優惠 (年資滿3年半價)</span><span class="value">-${fSubsidy.toLocaleString()}元</span></div>` : ''}
                 </div>
             `);
         });
@@ -187,8 +206,6 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('totalPrice').textContent = totalProjectCost.toLocaleString();
             document.getElementById('totalSubsidy').textContent = totalSubsidy.toLocaleString();
             document.getElementById('empFinalPay').textContent = (totalProjectCost - totalSubsidy).toLocaleString();
-
-            // 儲存當前數據供提交使用
             submitBtn.dataset.payload = JSON.stringify(finalData);
         } else {
             summaryContent.innerHTML = '<div class="empty-state">請填寫左側表單計算費用</div>';
@@ -201,10 +218,8 @@ document.addEventListener('DOMContentLoaded', () => {
     submitBtn.addEventListener('click', async () => {
         const payloadStr = submitBtn.dataset.payload;
         if (!payloadStr) return;
-
         const data = JSON.parse(payloadStr);
 
-        // 1. 儲存/下載 JSON 檔
         const jsonStr = JSON.stringify(data, null, 2);
         const blob = new Blob([jsonStr], { type: 'application/json' });
         const url = URL.createObjectURL(blob);
@@ -214,9 +229,7 @@ document.addEventListener('DOMContentLoaded', () => {
         a.click();
         URL.revokeObjectURL(url);
 
-        // 2. 發送至 Slack (使用 Webhook)
         const SLACK_WEBHOOK_URL = 'https://line-bot-nodejs.mini14091309.workers.dev/slack';
-
         const slackMessage = {
             text: `📢 *收到新的員工旅遊報名紀錄*`,
             attachments: [
@@ -225,6 +238,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     text: "```\n" + JSON.stringify(data, null, 2) + "\n```",
                     fields: [
                         { title: "員工姓名", value: data.employee.name || "未填寫", short: true },
+                        { title: "房型需求", value: data.employee.roomNote || "無", short: false },
                         { title: "補助後應付總額", value: `${data.totals.finalPay.toLocaleString()} 元`, short: true }
                     ]
                 }
@@ -234,19 +248,16 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             submitBtn.disabled = true;
             submitBtn.textContent = '⏳ 發送中...';
-
-            // 由於 Webhook 通常涉及跨域問題，在本地純前端測試時可能會失敗。
-            // 這裡提供邏輯，建議在有 Webhook Proxy 或 正式伺服器環境下使用。
             const response = await fetch(SLACK_WEBHOOK_URL, {
                 method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(slackMessage),
-                mode: 'no-cors' // 常用於 Webhook 直接發送
+                mode: 'no-cors'
             });
-
-            alert('✅ 登記成功！JSON 檔已下載，報名訊息已嘗試發送至 Slack。');
+            alert('✅ 登記成功！JSON 檔已下載，報名訊息已發送至 Slack。');
         } catch (error) {
             console.error('Slack 發送失敗:', error);
-            alert('⚠️ 登記已儲存為 JSON，但 Slack 發送失敗（可能是 Webhook URL 未設定或跨域限制）。');
+            alert('⚠️ 登記已儲存為 JSON，但 Slack 發送失敗。');
         } finally {
             submitBtn.disabled = false;
             submitBtn.innerHTML = '<span class="icon">🚀</span> 提交登記資料';

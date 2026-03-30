@@ -22,7 +22,7 @@
     <main class="container">
         <header class="header">
             <h1>2026 員工旅遊報名系統</h1>
-            <h6>Version:105.03.30.4</h6>
+            <h6>Version:105.03.30.5</h6>
             <p class="subtitle">探索台東之美 • 部落深度體驗</p>
         </header>
 
@@ -32,8 +32,12 @@
                 <img src="螢幕擷取畫面 2026-03-29 194429.png" alt="員工旅遊行程表" class="itinerary-img">
             </div>
             <div class="itinerary-notes">
-                <p><strong>費用說明：</strong> 包含 4 天 3 夜行程、住宿、餐飲、保險與部落體驗。</p>
-                <p><strong>到職比例補貼：</strong> 未滿 3 個月需自費；滿 1 年全額補貼；不滿 1 年依到職月份比例補貼。</p>
+                <p><strong>補貼政策說明：</strong></p>
+                <ul style="list-style-type: none; padding-left: 0; margin-top: 5px; font-size: 0.9rem;">
+                    <li>🔹 <strong>員工行程：</strong> 未滿 3 個月需自費；滿 1 年全額補貼；3 個月至 1 年依月份比例補貼。</li>
+                    <li>🔹 <strong>房型加價：</strong> 為自費性質，但滿 1 年最高扣抵 3,900 元；滿 3 年且有攜帶家屬可再額外扣抵 1,950 元。</li>
+                    <li>🔹 <strong>家屬優惠：</strong> 員工年資滿 3 年，第一位家屬享有 50% 費用補貼（其餘自費）。</li>
+                </ul>
             </div>
         </section>
 
@@ -71,9 +75,23 @@
                         <select id="roomType">
                             <option value="standard">標準分配 (按人數排房)</option>
                             <option value="double">稻香雙人房 (+7,800元/間)</option>
-                            <option value="quad">水漾四人房-有浴缸 (+11,400元/間)</option>
+                            <option value="quad">水漾四人房 (+11,400元/間)</option>
                             <option value="family">米米親子房 (+19,500元/間)</option>
                         </select>
+                        <div class="room-info" style="margin-top: 10px; font-size: 0.85rem;">
+                            <div style="display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 8px;">
+                                <a href="https://www.rice-hotel.com/room/double/standard-twin/" target="_blank"
+                                    style="color: #6366f1; text-decoration: none;">🔗 稻香雙人房介紹</a>
+                                <a href="https://www.rice-hotel.com/room/quad/standard-quad/" target="_blank"
+                                    style="color: #6366f1; text-decoration: none;">🔗 水漾四人房介紹</a>
+                                <a href="https://www.rice-hotel.com/room/quad/family-mimi/" target="_blank"
+                                    style="color: #6366f1; text-decoration: none;">🔗 米米親子房</a>
+                            </div>
+                            <label for="roomNote" style="display: block; margin-bottom: 5px;">房型特殊需求
+                                (例如：嬰兒床、澡盆...)</label>
+                            <textarea id="roomNote" rows="2"
+                                style="width: 100%; border-radius: 6px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: white; padding: 8px; font-family: inherit; resize: none;"></textarea>
+                        </div>
                         <small class="note">*選擇特定房型將以該房型總價計算，並加上活動費用。</small>
                     </div>
 
