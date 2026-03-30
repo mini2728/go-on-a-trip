@@ -402,3 +402,23 @@ select:focus {
     font-size: 0.9rem;
     margin-top: 40px;
 }
+
+.link-tag {
+    display: inline-block;
+    padding: 6px 12px;
+    background: rgba(99, 102, 241, 0.1);
+    border: 1px solid rgba(99, 102, 241, 0.3);
+    border-radius: 20px;
+    color: #818cf8;
+    text-decoration: none;
+    font-size: 0.85rem;
+    transition: all 0.3s ease;
+    margin-top: 5px;
+}
+
+.link-tag:hover {
+    background: rgba(99, 102, 241, 0.2);
+    border-color: var(--primary-color);
+    transform: translateY(-2px);
+    color: white;
+}

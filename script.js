@@ -150,16 +150,16 @@ document.addEventListener('DOMContentLoaded', () => {
         const transp = height < 115 ? 0 : (height <= 150 ? Math.round(fullTicket * 0.5) : fullTicket);
         addDetail(`台鐵來回票 (${departure})`, transp);
 
-        addDetail('飯店宴會廳午餐 (D1)', age <= 2 ? 0 : 770);
-        addDetail('東河部落屋竹筏體驗 (D1)', age <= 2 ? 0 : (age < 8 ? 150 : 400));
-        addDetail('部落晚宴 (D1)', age <= 2 ? 0 : 650);
-        addDetail('江賢二藝術園區門票 (D2)', age < 7 ? 0 : 250);
-        addDetail('達麓岸午餐 (D2)', age <= 2 ? 0 : 350);
-        addDetail('成功漁港賞鯨費用 (D2)', age < 5 ? 300 : (age <= 12 ? 650 : 850));
-        addDetail('佳濱成功旗魚海鮮晚餐 (D2)', age <= 2 ? 0 : 600);
-        addDetail('達魯瑪克深度部落體驗 (D3)', age <= 3 ? 0 : (age <= 12 ? 2100 : 2780));
-        addDetail('阿杜的店-自行車導覽 (D4)', age < 3 ? 0 : 400);
-        addDetail('春耕源香草餐廳午餐 (D4)', age <= 2 ? 0 : 320);
+        addDetail('<a href="https://purethink.pixnet.net/blog/posts/16190557697" target="_blank" style="color:inherit; text-decoration:underline; opacity:0.8;">飯店宴會廳午餐 (D1)</a>', age <= 2 ? 0 : 770);
+        addDetail('<a href="https://www.jsimplelife.com/taitung-attractions201203-jamie/" target="_blank" style="color:inherit; text-decoration:underline; opacity:0.8;">東河部落屋竹筏體驗 (D1)</a>', age <= 2 ? 0 : (age < 8 ? 150 : 400));
+        addDetail('<a href="https://tenjo.tw/dalouang/" target="_blank" style="color:inherit; text-decoration:underline; opacity:0.8;">部落晚宴 (D1)</a>', age <= 2 ? 0 : 650);
+        addDetail('<a href="https://www.youtube.com/@PaulChiangArtCenter" target="_blank" style="color:inherit; text-decoration:underline; opacity:0.8;">江賢二藝術園區門票 (D2)</a>', age < 7 ? 0 : 250);
+        addDetail('<a href="https://tenjo.tw/dalouang/" target="_blank" style="color:inherit; text-decoration:underline; opacity:0.8;">達麓岸午餐 (D2)</a>', age <= 2 ? 0 : 350);
+        addDetail('<a href="https://www.jacreative.com.tw/TravelinChenggong/category_edit.php?id=36&type=2" target="_blank" style="color:inherit; text-decoration:underline; opacity:0.8;">成功漁港賞鯨費用 (D2)</a>', age < 5 ? 300 : (age <= 12 ? 650 : 850));
+        addDetail('<a href="https://purethink.pixnet.net/blog/posts/16190557697" target="_blank" style="color:inherit; text-decoration:underline; opacity:0.8;">佳濱成功旗魚海鮮晚餐 (D2)</a>', age <= 2 ? 0 : 600);
+        addDetail('<a href="https://ilrataromak.com/%e9%81%94%e9%ad%af%e7%91%aa%e5%85%8btaromak%ef%bd%9c%e5%b0%84%e7%ae%ad%e9%ab%94%e9%a9%97%ef%bd%9c%e9%a3%9f%e8%be%b2%e6%95%99%e8%82%b2%ef%bd%9c%e3%84%a7%e6%97%a5%e9%ab%94%e9%a9%97/" target="_blank" style="color:inherit; text-decoration:underline; opacity:0.8;">達魯瑪克深度部落體驗 (D3)</a>', age <= 3 ? 0 : (age <= 12 ? 2100 : 2780));
+        addDetail('<a href="https://lyes.tw/adubicycle-%E9%98%BF%E5%BA%A6%E7%9A%84%E5%BA%97/" target="_blank" style="color:inherit; text-decoration:underline; opacity:0.8;">阿杜的店-自行車導覽 (D4)</a>', age < 3 ? 0 : 400);
+        addDetail('<a href="https://www.instagram.com/reel/DTwc8Snkz26/" target="_blank" style="color:inherit; text-decoration:underline; opacity:0.8;">春耕源香草餐廳午餐 (D4)</a>', age <= 2 ? 0 : 320);
 
         if (roomExtra > 0) {
             total += roomExtra;
