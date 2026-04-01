@@ -445,18 +445,19 @@ document.addEventListener('DOMContentLoaded', () => {
             const response = await fetch(SLACK_WEBHOOK_URL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(slackMessage),
-                mode: 'no-cors'
+                body: JSON.stringify(slackMessage)
             });
 
+            if (!response.ok) {
+                throw new Error(`Slack API 回應錯誤: ${response.status}`);
+            }
+
             // 送出到 Google Excel (Apps Script)
-            fetch('https://script.google.com/macros/s/AKfycby1ip0qI9i4kwlRAVDh7J9KrpyXzKodwqqB7hiDWVMXNin708FbPkSH1-N-SLc8D4Qn/exec', {
+            const gasResponse = await fetch('https://script.google.com/macros/s/AKfycby1ip0qI9i4kwlRAVDh7J9KrpyXzKodwqqB7hiDWVMXNin708FbPkSH1-N-SLc8D4Qn/exec', {
                 method: 'POST',
+                mode: 'no-cors', // GAS POST 經常會 302 導向，no-cors 可發送但不讀取回應
                 body: JSON.stringify(data)
-            })
-                .then(res => res.json())
-                .then(console.log)
-                .catch(console.error);
+            });
 
             alert('✅ 回覆成功！資料已儲存並同步。');
         } catch (error) {
