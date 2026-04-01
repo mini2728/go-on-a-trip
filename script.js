@@ -442,28 +442,48 @@ document.addEventListener('DOMContentLoaded', () => {
             submitBtn.disabled = true;
             submitBtn.textContent = '⏳ 發送中...';
 
-            const response = await fetch(SLACK_WEBHOOK_URL, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(slackMessage)
-            });
+            let errors = [];
 
-            if (!response.ok) {
-                throw new Error(`Slack API 回應錯誤: ${response.status}`);
+            // 1. 發送到 Slack
+            try {
+                const response = await fetch(SLACK_WEBHOOK_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(slackMessage)
+                });
+                if (!response.ok) {
+                    errors.push(`Slack API 無法存取 (${response.status})`);
+                }
+            } catch (err) {
+                console.error('Slack Error:', err);
+                errors.push(`Slack 發送失敗: ${err.message || err}`);
             }
 
-            // 送出到 Google Excel (Apps Script)
-            const gasResponse = await fetch('https://script.google.com/macros/s/AKfycby1ip0qI9i4kwlRAVDh7J9KrpyXzKodwqqB7hiDWVMXNin708FbPkSH1-N-SLc8D4Qn/exec', {
-                method: 'POST',
-                mode: 'no-cors', // GAS POST 經常會 302 導向，no-cors 可發送但不讀取回應
-                body: JSON.stringify(data)
-            });
+            // 2. 發送到 Google Sheets
+            try {
+                const gasUrl = 'https://script.google.com/macros/s/AKfycby1ip0qI9i4kwlRAVDh7J9KrpyXzKodwqqB7hiDWVMXNin708FbPkSH1-N-SLc8D4Qn/exec';
+                const gasResponse = await fetch(gasUrl, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    body: JSON.stringify(data)
+                });
+                // no-cors 模式下無法讀取對應，但至少確保這段跑完了
+            } catch (err) {
+                console.error('GAS Error:', err);
+                errors.push(`Google 同步失敗: ${err.message || err}`);
+            }
 
-            alert('✅ 回覆成功！資料已儲存並同步。');
+            if (errors.length === 0) {
+                alert('✅ 全部發送成功！資料已儲存並同步。');
+            } else if (errors.length < 2) {
+                alert(`⚠️ 部分發送失敗:\n${errors.join('\n')}\n\n(如果只有 Google 失敗可能是 CORS 限制，通常資料仍已送達)`);
+            } else {
+                alert(`❌ 全部發送失敗:\n${errors.join('\n')}`);
+            }
+
         } catch (error) {
-            console.error('Slack 發送失敗:', error);
-
-            alert(`⚠️ 發送失敗: ${error}`);
+            console.error('執行過程中斷:', error);
+            alert(`⚠️ 程式執行錯誤: ${error}`);
         } finally {
             submitBtn.disabled = false;
             submitBtn.innerHTML = '<span class="icon">🚀</span> 提交登記資料';
