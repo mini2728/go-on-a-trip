@@ -104,6 +104,7 @@ h1 {
     font-weight: 700;
     background: linear-gradient(to right, #818cf8, #f472b6);
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
     margin-bottom: 10px;
 }
@@ -449,30 +450,67 @@ select:focus {
 }
 
 .day-col h4 {
-    font-size: 1.3rem;
-    margin-bottom: 15px;
-    color: #334155;
+    font-size: 1.4rem;
+    margin-bottom: 20px;
+    color: #1e293b;
     font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.day-col h4::before {
+    content: '';
+    display: inline-block;
+    width: 4px;
+    height: 1.2rem;
+    background: var(--primary-color);
+    border-radius: 2px;
 }
 
 .schedule-item {
     font-size: 0.95rem;
     margin-bottom: 15px;
     line-height: 1.6;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 12px 15px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.schedule-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+.schedule-item strong {
+    color: #0f172a;
+    font-size: 1.0rem;
+    margin-right: 5px;
 }
 
 .schedule-item span.price-bg {
-    background: #fef08a;
-    padding: 2px 6px;
-    border-radius: 4px;
-    color: #854d0e;
-    font-weight: 500;
+    background: #e0e7ff;
+    padding: 3px 8px;
+    border-radius: 6px;
+    color: #3730a3;
+    font-weight: 600;
     font-size: 0.85rem;
+    display: inline-block;
+    margin-top: 2px;
 }
 
 .schedule-item span.highlight-red {
-    color: #dc2626;
-    font-weight: 500;
+    background: #fee2e2;
+    color: #b91c1c;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    margin-left: 3px;
+    display: inline-block;
 }
 
 .schedule-item span.muted {
@@ -488,13 +526,18 @@ select:focus {
 }
 
 .sched-link {
-    color: #0284c7;
-    text-decoration: underline;
+    color: #4f46e5;
+    text-decoration: none;
     font-weight: 600;
+    border-bottom: 1px dashed #a5b4fc;
+    padding-bottom: 2px;
+    transition: all 0.2s ease;
 }
 
 .sched-link:hover {
-    color: #0369a1;
+    color: #3730a3;
+    border-bottom-style: solid;
+    border-bottom-color: #3730a3;
 }
 
 .schedule-list {
