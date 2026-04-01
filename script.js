@@ -131,7 +131,7 @@ document.addEventListener('DOMContentLoaded', () => {
         `;
 
         familyItem.innerHTML = `
-            <div style="display: grid; grid-template-columns: 1fr 1.5fr 1.5fr; gap: 15px; margin-bottom: 15px;">
+            <div class="family-grid-top">
                 <div class="form-group" style="margin-bottom:0;">
                     <label style="font-size: 0.8rem; opacity: 0.7; margin-bottom: 5px; display: block;">家屬姓名</label>
                     <input type="text" placeholder="姓名" class="f-name" style="width: 100%;" required>
@@ -145,7 +145,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <input type="date" class="f-birthday" style="width: 100%;" required>
                 </div>
             </div>
-            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; align-items: flex-end;">
+            <div class="family-grid-bottom">
                 <div class="form-group" style="margin-bottom:0;">
                     <label style="font-size: 0.8rem; opacity: 0.7; margin-bottom: 5px; display: block;">身高 (cm)</label>
                     <input type="number" class="f-height" min="0" max="250" value="165" style="width: 100%;" required>

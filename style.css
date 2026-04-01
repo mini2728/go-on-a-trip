@@ -577,3 +577,29 @@ select:focus {
         grid-template-columns: 1fr;
     }
 }
+
+/* Family Form Grids (Responsive) */
+.family-grid-top {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr 1.5fr;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.family-grid-bottom {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 15px;
+    align-items: flex-end;
+}
+
+@media (max-width: 650px) {
+    .family-grid-top, .family-grid-bottom {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+    
+    .family-grid-bottom button {
+        margin-top: 5px;
+    }
+}
