@@ -12,8 +12,10 @@ document.addEventListener('DOMContentLoaded', () => {
         ROOM_EXTRA: {
             '標準分配': 0,
             '稻香雙人房': 7800,
+            '禾風雙人房': 8416,
             '水漾四人房': 11400,
-            '米米親子房': 19500
+            '米米親子房': 15900,
+            '河馬親子房': 16800
         },
         TRANSPORT_FULL: {
             '板橋': 1904,
