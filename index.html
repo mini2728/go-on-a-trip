@@ -22,7 +22,7 @@
     <main class="container">
         <header class="header">
             <h1>2026 員工旅遊報名系統</h1>
-            <h6>Version:105.03.30.5</h6>
+            <h6>Version:105.04.01.01</h6>
             <p class="subtitle">探索台東之美 • 部落深度體驗</p>
         </header>
 
@@ -39,17 +39,24 @@
                     <li>🔹 <strong>家屬優惠：</strong> 員工年資滿 3 年，第一位家屬享有 50% 費用補貼（其餘自費）。</li>
                 </ul>
             </div>
-            <div class="itinerary-links" style="margin-top: 20px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1);">
+            <div class="itinerary-links"
+                style="margin-top: 20px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1);">
                 <p style="margin-bottom: 10px;"><strong>🔍 行程景點參考：</strong></p>
                 <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-                    <a href="https://www.jsimplelife.com/taitung-attractions201203-jamie/" target="_blank" class="link-tag">🛶 東河部落屋</a>
-                    <a href="https://www.youtube.com/@PaulChiangArtCenter" target="_blank" class="link-tag">🎨 江賢二藝術園區</a>
+                    <a href="https://www.jsimplelife.com/taitung-attractions201203-jamie/" target="_blank"
+                        class="link-tag">🛶 東河部落屋</a>
+                    <a href="https://izzychou.com/atabeads/" target="_blank" class="link-tag">🧶 卡塔文化工作室</a>
                     <a href="https://tenjo.tw/dalouang/" target="_blank" class="link-tag">🏡 達麓岸部落屋</a>
-                    <a href="https://www.jacreative.com.tw/TravelinChenggong/category_edit.php?id=36&type=2" target="_blank" class="link-tag">🐳 成功港賞鯨</a>
-                    <a href="https://purethink.pixnet.net/blog/posts/16190557697" target="_blank" class="link-tag">🐟 佳濱成功旗魚</a>
-                    <a href="https://ilrataromak.com/%e9%81%94%e9%ad%af%e7%91%aa%e5%85%8btaromak%ef%bd%9c%e5%b0%84%e7%ae%ad%e9%ab%94%e9%a9%97%ef%bd%9c%e9%a3%9f%e8%be%b2%e6%95%99%e8%82%b2%ef%bd%9c%e3%84%a7%e6%97%a5%e9%ab%94%e9%a9%97/" target="_blank" class="link-tag">🏹 達魯瑪克體驗</a>
-                    <a href="https://lyes.tw/adubicycle-%E9%98%BF%E5%BA%A6%E7%9A%84%E5%BA%97/" target="_blank" class="link-tag">🚲 阿杜的店單車</a>
-                    <a href="https://www.instagram.com/reel/DTwc8Snkz26/" target="_blank" class="link-tag">🌿 春耕源香草餐廳</a>
+                    <a href="https://www.jacreative.com.tw/TravelinChenggong/category_edit.php?id=36&type=2"
+                        target="_blank" class="link-tag">🐳 成功港賞鯨</a>
+                    <a href="https://purethink.pixnet.net/blog/posts/16190557697" target="_blank" class="link-tag">🐟
+                        佳濱成功旗魚</a>
+                    <a href="https://ilrataromak.com/%e9%81%94%e9%ad%af%e7%91%aa%e5%85%8btaromak%ef%bd%9c%e5%b0%84%e7%ae%ad%e9%ab%94%e9%a9%97%ef%bd%9c%e9%a3%9f%e8%be%b2%e6%95%99%e8%82%b2%ef%bd%9c%e3%84%a7%e6%97%a5%e9%ab%94%e9%a9%97/"
+                        target="_blank" class="link-tag">🏹 達魯瑪克體驗</a>
+                    <a href="https://lyes.tw/adubicycle-%E9%98%BF%E5%BA%A6%E7%9A%84%E5%BA%97/" target="_blank"
+                        class="link-tag">🚲 阿杜的店單車</a>
+                    <a href="https://www.instagram.com/reel/DTwc8Snkz26/" target="_blank" class="link-tag">🌿
+                        春耕源香草餐廳</a>
                 </div>
             </div>
             </div>
@@ -80,63 +87,63 @@
                             <input type="text" id="empID" placeholder="請輸入身分證字號" required>
                         </div>
 
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="empBirthday">出生年月日 (投保用)</label>
-                            <input type="date" id="empBirthday" value="1990-01-01" required>
-                        </div>
-                        <div class="form-group" style="max-width: 100px;">
-                            <label for="empHeight">身高 (cm)</label>
-                            <input type="number" id="empHeight" value="170" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="joinDate">到職日期</label>
-                            <input type="date" id="joinDate" value="2025-01-01" required>
-                        </div>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="departure">出發地點 (來回票價)</label>
-                            <select id="departure">
-                                <option value="板橋">板橋 (1,904元)</option>
-                                <option value="台中">台中 (1,964元)</option>
-                                <option value="高雄">高雄 (970元)</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="empDiet">飲食習慣</label>
-                            <select id="empDiet">
-                                <option value="葷食">葷食 </option>
-                                <option value="素食">素食 </option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="roomType">房型選擇 (3晚總價)</label>
-                        <select id="roomType">
-                            <option value="標準分配">標準分配 (按人數排房)</option>
-                            <option value="稻香雙人房">稻香雙人房 (+7,800元/間)</option>
-                            <option value="水漾四人房">水漾四人房 (+11,400元/間)</option>
-                            <option value="米米親子房">米米親子房 (+19,500元/間)</option>
-                        </select>
-                        <div class="room-info" style="margin-top: 10px; font-size: 0.85rem;">
-                            <div style="display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 8px;">
-                                <a href="https://www.rice-hotel.com/room/double/standard-twin/" target="_blank"
-                                    style="color: #6366f1; text-decoration: none;">🔗 稻香雙人房介紹</a>
-                                <a href="https://www.rice-hotel.com/room/quad/standard-quad/" target="_blank"
-                                    style="color: #6366f1; text-decoration: none;">🔗 水漾四人房介紹</a>
-                                <a href="https://www.rice-hotel.com/room/quad/family-mimi/" target="_blank"
-                                    style="color: #6366f1; text-decoration: none;">🔗 米米親子房</a>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="empBirthday">出生年月日 (投保用)</label>
+                                <input type="date" id="empBirthday" value="1990-01-01" required>
                             </div>
-                            <label for="roomNote" style="display: block; margin-bottom: 5px;">房型特殊需求
-                                (例如：嬰兒床、澡盆、消毒鍋...)</label>
-                            <textarea id="roomNote" rows="2"
-                                style="width: 100%; border-radius: 6px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: white; padding: 8px; font-family: inherit; resize: none;"></textarea>
+                            <div class="form-group" style="max-width: 100px;">
+                                <label for="empHeight">身高 (cm)</label>
+                                <input type="number" id="empHeight" value="170" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="joinDate">到職日期</label>
+                                <input type="date" id="joinDate" value="2025-01-01" required>
+                            </div>
                         </div>
-                        <small class="note">*選擇特定房型將以該房型總價計算，並加上活動費用。</small>
-                    </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="departure">出發地點 (來回票價)</label>
+                                <select id="departure">
+                                    <option value="板橋">板橋 (1,904元)</option>
+                                    <option value="台中">台中 (1,964元)</option>
+                                    <option value="高雄">高雄 (970元)</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="empDiet">飲食習慣</label>
+                                <select id="empDiet">
+                                    <option value="葷食">葷食 </option>
+                                    <option value="素食">素食 </option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="roomType">房型選擇 (3晚總價)</label>
+                            <select id="roomType">
+                                <option value="標準分配">標準分配 (按人數排房)</option>
+                                <option value="稻香雙人房">稻香雙人房 (+7,800元/間)</option>
+                                <option value="水漾四人房">水漾四人房 (+11,400元/間)</option>
+                                <option value="米米親子房">米米親子房 (+19,500元/間)</option>
+                            </select>
+                            <div class="room-info" style="margin-top: 10px; font-size: 0.85rem;">
+                                <div style="display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 8px;">
+                                    <a href="https://www.rice-hotel.com/room/double/standard-twin/" target="_blank"
+                                        style="color: #6366f1; text-decoration: none;">🔗 稻香雙人房介紹</a>
+                                    <a href="https://www.rice-hotel.com/room/quad/standard-quad/" target="_blank"
+                                        style="color: #6366f1; text-decoration: none;">🔗 水漾四人房介紹</a>
+                                    <a href="https://www.rice-hotel.com/room/quad/family-mimi/" target="_blank"
+                                        style="color: #6366f1; text-decoration: none;">🔗 米米親子房</a>
+                                </div>
+                                <label for="roomNote" style="display: block; margin-bottom: 5px;">房型特殊需求
+                                    (例如：嬰兒床、澡盆、消毒鍋...)</label>
+                                <textarea id="roomNote" rows="2"
+                                    style="width: 100%; border-radius: 6px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: white; padding: 8px; font-family: inherit; resize: none;"></textarea>
+                            </div>
+                            <small class="note">*選擇特定房型將以該房型總價計算，並加上活動費用。</small>
+                        </div>
 
                         <div class="family-section">
                             <h3>家屬資訊 <button type="button" id="addFamilyBtn" class="btn-secondary">+ 新增家屬</button></h3>

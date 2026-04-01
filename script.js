@@ -153,7 +153,7 @@ document.addEventListener('DOMContentLoaded', () => {
         addDetail('<a href="https://purethink.pixnet.net/blog/posts/16190557697" target="_blank" style="color:inherit; text-decoration:underline; opacity:0.8;">飯店宴會廳午餐 (D1)</a>', age <= 2 ? 0 : 770);
         addDetail('<a href="https://www.jsimplelife.com/taitung-attractions201203-jamie/" target="_blank" style="color:inherit; text-decoration:underline; opacity:0.8;">東河部落屋竹筏體驗 (D1)</a>', age <= 2 ? 0 : (age < 8 ? 150 : 400));
         addDetail('<a href="https://tenjo.tw/dalouang/" target="_blank" style="color:inherit; text-decoration:underline; opacity:0.8;">部落晚宴 (D1)</a>', age <= 2 ? 0 : 650);
-        addDetail('<a href="https://www.youtube.com/@PaulChiangArtCenter" target="_blank" style="color:inherit; text-decoration:underline; opacity:0.8;">江賢二藝術園區門票 (D2)</a>', age < 7 ? 0 : 250);
+        addDetail('<a href="https://izzychou.com/atabeads/" target="_blank" style="color:inherit; text-decoration:underline; opacity:0.8;">燒製琉璃珠與傳統串珠手環體驗｜卡塔文化工作室(燒製琉璃珠/串珠手環) (D2)</a>', age <= 2 ? 0 : 390);
         addDetail('<a href="https://tenjo.tw/dalouang/" target="_blank" style="color:inherit; text-decoration:underline; opacity:0.8;">達麓岸午餐 (D2)</a>', age <= 2 ? 0 : 350);
         addDetail('<a href="https://www.jacreative.com.tw/TravelinChenggong/category_edit.php?id=36&type=2" target="_blank" style="color:inherit; text-decoration:underline; opacity:0.8;">成功漁港賞鯨費用 (D2)</a>', age < 5 ? 300 : (age <= 12 ? 650 : 850));
         addDetail('<a href="https://purethink.pixnet.net/blog/posts/16190557697" target="_blank" style="color:inherit; text-decoration:underline; opacity:0.8;">佳濱成功旗魚海鮮晚餐 (D2)</a>', age <= 2 ? 0 : 600);
