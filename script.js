@@ -35,6 +35,64 @@ document.addEventListener('DOMContentLoaded', () => {
         return age < 0 ? 0 : age;
     }
 
+    function saveState() {
+        const familyElements = document.querySelectorAll('.family-item');
+        const families = Array.from(familyElements).map(item => ({
+            name: item.querySelector('.f-name').value,
+            id: item.querySelector('.f-id').value,
+            birthday: item.querySelector('.f-birthday').value,
+            height: item.querySelector('.f-height').value,
+            diet: item.querySelector('.f-diet').value
+        }));
+
+        const state = {
+            participationStatus: participationStatus.value,
+            empName: document.getElementById('empName').value,
+            empID: document.getElementById('empID').value,
+            empBirthday: document.getElementById('empBirthday').value,
+            empHeight: document.getElementById('empHeight').value,
+            joinDate: document.getElementById('joinDate').value,
+            departure: document.getElementById('departure').value,
+            empDiet: document.getElementById('empDiet').value,
+            roomType: document.getElementById('roomType').value,
+            roomNote: document.getElementById('roomNote').value,
+            families: families
+        };
+        localStorage.setItem('tripRegistrationState', JSON.stringify(state));
+    }
+
+    function loadState() {
+        const stateStr = localStorage.getItem('tripRegistrationState');
+        if (!stateStr) return;
+        
+        try {
+            const state = JSON.parse(stateStr);
+            if (state.participationStatus) participationStatus.value = state.participationStatus;
+            if (state.empName) document.getElementById('empName').value = state.empName;
+            if (state.empID) document.getElementById('empID').value = state.empID;
+            if (state.empBirthday) document.getElementById('empBirthday').value = state.empBirthday;
+            if (state.empHeight) document.getElementById('empHeight').value = state.empHeight;
+            if (state.joinDate) document.getElementById('joinDate').value = state.joinDate;
+            if (state.departure) document.getElementById('departure').value = state.departure;
+            if (state.empDiet) document.getElementById('empDiet').value = state.empDiet;
+            if (state.roomType) document.getElementById('roomType').value = state.roomType;
+            if (state.roomNote) document.getElementById('roomNote').value = state.roomNote;
+
+            if (state.families && Array.isArray(state.families)) {
+                state.families.forEach(f => {
+                    const familyItem = addFamilyItem();
+                    if (f.name) familyItem.querySelector('.f-name').value = f.name;
+                    if (f.id) familyItem.querySelector('.f-id').value = f.id;
+                    if (f.birthday) familyItem.querySelector('.f-birthday').value = f.birthday;
+                    if (f.height) familyItem.querySelector('.f-height').value = f.height;
+                    if (f.diet) familyItem.querySelector('.f-diet').value = f.diet;
+                });
+            }
+        } catch (e) {
+            console.error('Local storage parse error:', e);
+        }
+    }
+
     participationStatus.addEventListener('change', () => {
         const isParticipating = participationStatus.value === 'participate';
         travelDetails.style.display = isParticipating ? 'block' : 'none';
@@ -59,8 +117,7 @@ document.addEventListener('DOMContentLoaded', () => {
         calculateCost();
     });
 
-    // 新增家屬
-    addFamilyBtn.addEventListener('click', () => {
+    function addFamilyItem() {
         const familyItem = document.createElement('div');
         familyItem.className = 'family-item';
         familyItem.style.cssText = `
@@ -112,6 +169,12 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         familyList.appendChild(familyItem);
+        return familyItem;
+    }
+
+    // 新增家屬
+    addFamilyBtn.addEventListener('click', () => {
+        addFamilyItem();
         calculateCost();
     });
 
@@ -191,6 +254,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 employee: { name: empName },
                 totals: { project: 0, subsidy: 0, finalPay: 0 }
             });
+            saveState();
             return;
         }
 
@@ -326,6 +390,8 @@ document.addEventListener('DOMContentLoaded', () => {
             totalBar.style.display = 'none';
             submitBtn.style.display = 'none';
         }
+        
+        saveState();
     }
 
     // 提交功能
@@ -388,5 +454,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    calculateCost();
+    loadState();
+    participationStatus.dispatchEvent(new Event('change'));
 });
