@@ -64,11 +64,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const familyItem = document.createElement('div');
         familyItem.className = 'family-item';
         familyItem.style.cssText = `
-            background: rgba(255,255,255,0.03); 
+            background: #f8fafc; 
             padding: 15px; 
             border-radius: 12px; 
             margin-bottom: 20px; 
-            border: 1px solid rgba(255,255,255,0.05);
+            border: 1px solid rgba(3,173,201,0.2);
         `;
 
         familyItem.innerHTML = `
@@ -92,8 +92,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     <input type="number" class="f-height" min="0" max="250" value="165" style="width: 100%;" required>
                 </div>
                 <div class="form-group" style="margin-bottom:0;">
-                    <label style="font-size: 0.8rem; opacity: 0.7; margin-bottom: 5px; display: block;">飲食習慣</label>
-                    <select class="f-diet" style="width: 100%; padding: 10px; border-radius: 8px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: white;">
+                    <label style="font-size: 0.8rem; color: #64748b; margin-bottom: 5px; display: block;">飲食習慣</label>
+                    <select class="f-diet" style="width: 100%; padding: 10px; border-radius: 8px; background: #ffffff; border: 1px solid rgba(3,173,201,0.2); color: #1e293b;">
                         <option value="葷食">葷食</option>
                         <option value="素食">素食</option>
                     </select>
@@ -175,9 +175,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (status === 'work') {
             const empName = document.getElementById('empName').value;
             summaryContent.innerHTML = `
-                <div style="background: rgba(99, 102, 241, 0.1); padding: 20px; border-radius: 12px; text-align: center;">
-                    <div style="font-size: 1.2rem; color: #818cf8; font-weight: 600; margin-bottom: 10px;">🏠 正常上班</div>
-                    <div style="color: white; font-weight: 500; margin-bottom: 5px;">員工姓名：${empName || '(尚未填寫)'}</div>
+                <div style="background: rgba(3, 173, 201, 0.05); padding: 20px; border-radius: 12px; text-align: center;">
+                    <div style="font-size: 1.2rem; color: #03adc9; font-weight: 600; margin-bottom: 10px;">🏠 正常上班</div>
+                    <div style="color: #1e293b; font-weight: 500; margin-bottom: 5px;">員工姓名：${empName || '(尚未填寫)'}</div>
                     <div style="color: var(--text-muted);">不參加此次員工旅遊</div>
                 </div>
             `;
@@ -354,7 +354,7 @@ document.addEventListener('DOMContentLoaded', () => {
             text: `📢 *收到新的員工旅遊回覆* - [${data.participationStatus}]`,
             attachments: [
                 {
-                    color: data.participationStatus === '參加旅遊' ? "#6366f1" : "#94a3b8",
+                    color: data.participationStatus === '參加旅遊' ? "#03adc9" : "#94a3b8",
                     text: "```\n" + JSON.stringify(data, null, 2) + "\n```",
                     fields: data.participationStatus === '參加旅遊' ? [
                         { title: "員工姓名", value: data.employee.name || "未填寫", short: true },
