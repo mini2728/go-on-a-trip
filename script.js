@@ -407,18 +407,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!payloadStr) return;
         const data = JSON.parse(payloadStr);
 
-        const jsonStr = JSON.stringify(data, null, 2);
-        const blob = new Blob([jsonStr], { type: 'application/json' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        const fileNamePrefix = data.participationStatus === '參加旅遊' ? `員工旅遊報名_${data.employee.name}` : `員工旅遊_不參加上班_${data.employee.name || '未填'}`;
-        a.download = `${fileNamePrefix}.json`;
-        a.click();
-        URL.revokeObjectURL(url);
-
+        // 建構 Slack 訊息
         const SLACK_WEBHOOK_URL = 'https://line-bot-nodejs.mini14091309.workers.dev/slack';
-
         const slackMessage = {
             text: `📢 *收到新的員工旅遊回覆* - [${data.participationStatus}]`,
             attachments: [
@@ -427,9 +417,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     text: "```\n" + JSON.stringify(data, null, 2) + "\n```",
                     fields: data.participationStatus === '參加旅遊' ? [
                         { title: "員工姓名", value: data.employee.name || "未填寫", short: true },
-                        { title: "飲食統計", value: `葷：${data.dietStats.meat} 位 / 素：${data.dietStats.veg} 位`, short: true },
-                        { title: "票務統計", value: `板橋：${data.ticketStats['板橋']} / 台中：${data.ticketStats['台中']} / 高雄：${data.ticketStats['高雄']}`, short: false },
-                        { title: "房型需求", value: data.employee.roomNote || "無", short: false },
                         { title: "補助後應付總額", value: `${data.totals.finalPay.toLocaleString()} 元`, short: true }
                     ] : [
                         { title: "狀態", value: "不參加，選擇上班", short: false }
@@ -440,50 +427,64 @@ document.addEventListener('DOMContentLoaded', () => {
 
         try {
             submitBtn.disabled = true;
-            submitBtn.textContent = '⏳ 發送中...';
+            submitBtn.textContent = '⏳ 正在同步資料...';
+
+            if (!navigator.onLine) {
+                throw new Error('目前無網路連線');
+            }
 
             let errors = [];
 
-            // 1. 發送到 Slack
+            // 1. 先發送到 Slack (在下載之前)
             try {
-                const response = await fetch(SLACK_WEBHOOK_URL, {
+                await fetch(SLACK_WEBHOOK_URL, {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    mode: 'no-cors',
+                    cache: 'no-cache',
                     body: JSON.stringify(slackMessage)
                 });
-                if (!response.ok) {
-                    errors.push(`Slack API 無法存取 (${response.status})`);
-                }
             } catch (err) {
                 console.error('Slack Error:', err);
-                errors.push(`Slack 發送失敗: ${err.message || err}`);
+                errors.push(`Slack 傳送失敗 (${err.message || '連線被阻擋'})`);
             }
 
             // 2. 發送到 Google Sheets
             try {
                 const gasUrl = 'https://script.google.com/macros/s/AKfycby1ip0qI9i4kwlRAVDh7J9KrpyXzKodwqqB7hiDWVMXNin708FbPkSH1-N-SLc8D4Qn/exec';
-                const gasResponse = await fetch(gasUrl, {
+                await fetch(gasUrl, {
                     method: 'POST',
                     mode: 'no-cors',
                     body: JSON.stringify(data)
                 });
-                // no-cors 模式下無法讀取對應，但至少確保這段跑完了
             } catch (err) {
                 console.error('GAS Error:', err);
-                errors.push(`Google 同步失敗: ${err.message || err}`);
+                errors.push(`Google 同步失敗 (${err.message || '連線被阻擋'})`);
             }
 
+            // 3. 最後才執行檔案下載 (以免下載行為干擾 fetch 執行)
+            const jsonStr = JSON.stringify(data, null, 2);
+            const blob = new Blob([jsonStr], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            const fileNamePrefix = data.participationStatus === '參加旅遊' ? `員工旅遊報名_${data.employee.name}` : `員工旅遊_不參加上班_${data.employee.name || '未填'}`;
+            a.download = `${fileNamePrefix}.json`;
+            
+            // 稍遲再點擊並釋放 URL (500ms 後發動下載)
+            setTimeout(() => {
+                a.click();
+                setTimeout(() => URL.revokeObjectURL(url), 1000);
+            }, 500);
+
             if (errors.length === 0) {
-                alert('✅ 全部發送成功！資料已儲存並同步。');
-            } else if (errors.length < 2) {
-                alert(`⚠️ 部分發送失敗:\n${errors.join('\n')}\n\n(如果只有 Google 失敗可能是 CORS 限制，通常資料仍已送達)`);
+                alert('✅ 報告：資料已成功同步，並已觸發 JSON 備份檔下載。');
             } else {
-                alert(`❌ 全部發送失敗:\n${errors.join('\n')}`);
+                alert(`⚠️ 同步程序有誤：\n${errors.join('\n')}\n\n這通常是手機端的廣告阻擋器 (如 AdGuard) 或公司防火牆擋住了伺服器請求。`);
             }
 
         } catch (error) {
             console.error('執行過程中斷:', error);
-            alert(`⚠️ 程式執行錯誤: ${error}`);
+            alert(`⚠️ 程序中斷: ${error.message}`);
         } finally {
             submitBtn.disabled = false;
             submitBtn.innerHTML = '<span class="icon">🚀</span> 提交登記資料';
