@@ -461,7 +461,8 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('✅ 回覆成功！資料已儲存並同步。');
         } catch (error) {
             console.error('Slack 發送失敗:', error);
-            alert('⚠️ 資料已儲存為 JSON，但 Slack 發送失敗。');
+
+            alert(`⚠️ 發送失敗: ${error}`);
         } finally {
             submitBtn.disabled = false;
             submitBtn.innerHTML = '<span class="icon">🚀</span> 提交登記資料';
