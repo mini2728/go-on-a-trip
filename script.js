@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function loadState() {
         const stateStr = localStorage.getItem('tripRegistrationState');
         if (!stateStr) return;
-        
+
         try {
             const state = JSON.parse(stateStr);
             if (state.participationStatus) participationStatus.value = state.participationStatus;
@@ -219,7 +219,7 @@ document.addEventListener('DOMContentLoaded', () => {
         addDetail('燒製琉璃珠與傳統串珠手環體驗｜卡塔文化工作室(燒製琉璃珠/串珠手環) (D2)', age <= 2 ? 0 : 390);
         addDetail('午餐｜達麓岸部落屋 (D2)', age <= 2 ? 0 : 350);
         addDetail('出海賞鯨｜晉領號夏季經典友善賞鯨行程 (D2)', age < 5 ? 300 : (age <= 12 ? 650 : 850));
-        addDetail('沙魚仔海鮮餐廳晚餐 (D2)', age <= 2 ? 0 : 600);
+        addDetail('沙魚仔海鮮餐廳晚餐 (D2)', age <= 2 ? 0 : 650);
         addDetail('達魯瑪克深度部落體驗 (D3)', age <= 3 ? 0 : (age <= 12 ? 2100 : 2780));
         addDetail('阿杜的店-自行車導覽 (D4)', age < 3 ? 0 : 400);
         addDetail('春耕源香草餐廳午餐 (D4)', age <= 2 ? 0 : 320);
@@ -390,7 +390,7 @@ document.addEventListener('DOMContentLoaded', () => {
             totalBar.style.display = 'none';
             submitBtn.style.display = 'none';
         }
-        
+
         saveState();
     }
 
@@ -416,6 +416,7 @@ document.addEventListener('DOMContentLoaded', () => {
         URL.revokeObjectURL(url);
 
         const SLACK_WEBHOOK_URL = 'https://line-bot-nodejs.mini14091309.workers.dev/slack';
+
         const slackMessage = {
             text: `📢 *收到新的員工旅遊回覆* - [${data.participationStatus}]`,
             attachments: [
@@ -438,13 +439,24 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             submitBtn.disabled = true;
             submitBtn.textContent = '⏳ 發送中...';
+
             const response = await fetch(SLACK_WEBHOOK_URL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(slackMessage),
                 mode: 'no-cors'
             });
-            alert('✅ 回覆成功！資料已儲存並同步至 Slack。');
+
+            // 送出到 Google Excel (Apps Script)
+            fetch('https://script.google.com/macros/s/AKfycby1ip0qI9i4kwlRAVDh7J9KrpyXzKodwqqB7hiDWVMXNin708FbPkSH1-N-SLc8D4Qn/exec', {
+                method: 'POST',
+                body: JSON.stringify(data)
+            })
+                .then(res => res.json())
+                .then(console.log)
+                .catch(console.error);
+
+            alert('✅ 回覆成功！資料已儲存並同步。');
         } catch (error) {
             console.error('Slack 發送失敗:', error);
             alert('⚠️ 資料已儲存為 JSON，但 Slack 發送失敗。');
