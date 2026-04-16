@@ -7,7 +7,7 @@ const DATA = {
                 { time: "13:00-14:00", title: "搭車至東河部落", desc: "開啟精彩旅程", icon: "bus", tag: "transport" },
                 { time: "14:00-15:30", title: "竹筏體驗", desc: "東河部落屋｜文化探險", icon: "compass", tag: "activity" },
                 { time: "15:30-17:30", title: "體驗部落晚宴", desc: "東河部落屋｜特色餐飲", icon: "utensils", tag: "dining" },
-                { time: "17:30-18:30", title: "搭車回禾風新棧飯店", desc: "首日圓滿落幕", icon: "bus", tag: "transport" }
+                { time: "17:30-18:30", title: "搭車回禾風新棧飯店", desc: "首日圓滿落幕", icon: "bus", tag: "transport", action: "查看房間分配", actionType: "rooms" }
             ]
         },
         2: {
@@ -22,7 +22,7 @@ const DATA = {
                 { time: "14:00-17:00", title: "賞鯨體驗", desc: "太平洋追逐海豚與鯨魚", icon: "compass", tag: "activity" },
                 { time: "17:00-17:15", title: "搭車至沙魚仔海鮮餐廳", desc: "飽餐一頓即將開始", icon: "bus", tag: "transport" },
                 { time: "17:15-18:15", title: "吃晚餐", desc: "沙魚仔海鮮餐廳享用海味", icon: "utensils", tag: "dining", action: "查看桌位表", actionType: "seating_d2_dinner" },
-                { time: "18:15-19:00", title: "搭車回禾風新棧飯店", desc: "充分休息補充體力", icon: "bus", tag: "transport" }
+                { time: "18:15-19:00", title: "搭車回禾風新棧飯店", desc: "充分休息補充體力", icon: "bus", tag: "transport", action: "查看房間分配", actionType: "rooms" }
             ]
         },
         3: {
@@ -36,7 +36,7 @@ const DATA = {
                     "16:15 傳統射箭體驗",
                     "17:15-19:00 格瑟農莊魯凱音樂晚餐"
                 ]},
-                { time: "19:00-19:30", title: "搭車回禾風新棧飯店", desc: "帶著滿載的回憶賦歸", icon: "bus", tag: "transport" }
+                { time: "19:00-19:30", title: "搭車回禾風新棧飯店", desc: "帶著滿載的回憶賦歸", icon: "bus", tag: "transport", action: "查看房間分配", actionType: "rooms" }
             ]
         },
         4: {
@@ -117,6 +117,20 @@ const DATA = {
             }
         ]
     },
+    rooms: [
+        { type: "稻香雙人房", people: ["鄭珮君", "彭書怡"], note: "" },
+        { type: "禾風雙人房", people: ["劉姿吟"], note: "" },
+        { type: "稻香雙人房", people: ["簡采驪", "簡欣儀"], note: "" },
+        { type: "豪華水漾四人房", people: ["林志堉", "陳希寧", "林裝恩", "林維杰", "黃坊瑪"], note: "嬰兒床、澡盆、消毒鍋" },
+        { type: "禾風雙人房", people: ["林建瑋", "黃之盈", "林兩蓁"], note: "嬰兒床、消毒鍋、澡盆" },
+        { type: "豪華水漾四人房", people: ["林凱偉", "鄧梅嬋", "林子濬", "林佑宸"], note: "" },
+        { type: "稻香雙人房", people: ["葉家郡"], note: "" },
+        { type: "禾風雙人房", people: ["陳垂康", "戴培芯"], note: "" },
+        { type: "稻香雙人房", people: ["劉榕展", "林秉毅"], note: "" },
+        { type: "稻香雙人房", people: ["蔡川海", "鄭亦廷"], note: "" },
+        { type: "稻香雙人房", people: ["張家漢", "吳承宇"], note: "" },
+        { type: "禾風雙人房", people: ["黃庭儀"], note: "" }
+    ],
     notes: [
         "🛶 D1 竹筏活動會有可能淋濕可以多帶件備用衣褲與穿著可沾濕的鞋子。",
         "🌿 因活動大都為戶外，可以攜帶防蚊液、雨具。",
@@ -194,6 +208,29 @@ document.addEventListener('DOMContentLoaded', () => {
                 `;
             });
             modalBody.innerHTML = html;
+        } else if (type === 'rooms') {
+            modalTitle.innerText = "房間分配表 🏨";
+            let html = `<div class="seating-grid">`;
+            DATA.rooms.forEach(room => {
+                html += `
+                    <div class="table-card" style="border-left: 5px solid #3b82f6;">
+                        <div class="table-title" style="color: #2563eb;">
+                            <i data-lucide="home" style="width:16px;"></i> ${room.type}
+                        </div>
+                        <div class="person-list">
+                            ${room.people.map(p => `<span class="person-tag">${p}</span>`).join('')}
+                        </div>
+                        ${room.note ? `
+                            <div style="margin-top: 10px; font-size: 0.75rem; color: #e11d48; background: #fff1f2; padding: 4px 10px; border-radius: 8px; display: inline-block;">
+                                💡 ${room.note}
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+            });
+            html += `</div>`;
+            modalBody.innerHTML = html;
+            lucide.createIcons();
         } else if (type === 'notes') {
             modalTitle.innerText = "出遊小叮嚀 ✨";
             let html = `<div style="padding-top: 10px;">`;
