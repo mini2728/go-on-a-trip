@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>2026 天鏡科技員工旅遊行程表</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Outfit:wght@400;600;700&display=swap"
+        rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="itinerary.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- 背景裝飾 -->
+        <div class="bg-decoration">
+            <div class="glow-sphere sphere-1"></div>
+            <div class="glow-sphere sphere-2"></div>
+        </div>
+
+        <!-- 頂部導覽 -->
+        <header class="app-header">
+            <div class="header-content">
+                <div class="header-title-area">
+                    <h1>天鏡科技員工旅遊</h1>
+                    <p>EXPLORE TAITUNG 2026</p>
+                </div>
+                <button class="info-btn" id="notes-btn">
+                    <i data-lucide="info"></i>
+                </button>
+            </div>
+            <nav class="day-tabs">
+                <button class="tab-btn active" data-day="1">D1</button>
+                <button class="tab-btn" data-day="2">D2</button>
+                <button class="tab-btn" data-day="3">D3</button>
+                <button class="tab-btn" data-day="4">D4</button>
+            </nav>
+        </header>
+
+        <!-- 主要內容區域 -->
+        <main class="content-view">
+            <div id="itinerary-content" class="fade-in">
+                <!-- 由 JavaScript 動態渲染 -->
+            </div>
+        </main>
+
+        <!-- 底部模態框容器 (用於顯示分配表) -->
+        <div id="modal-container" class="modal-overlay">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 id="modal-title">標題</h3>
+                    <button id="close-modal" class="close-btn"><i data-lucide="x"></i></button>
+                </div>
+                <div id="modal-body" class="modal-body">
+                    <!-- 動態內容 -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="itinerary.js"></script>
+    <script>
+        // 初始化 Lucide 圖示
+        lucide.createIcons();
+    </script>
+</body>
+
+</html>
