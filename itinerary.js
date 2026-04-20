@@ -5,9 +5,9 @@ const DATA = {
             items: [
                 { time: "12:00-13:55", title: "飯店餐廳用餐", desc: "禾風新棧度假飯店", icon: "utensils", tag: "dining", action: "查看桌位表", actionType: "seating_d1_lunch" },
                 { time: "13:00-14:00", title: "搭車至東河部落", desc: "開啟精彩旅程", icon: "bus", tag: "transport" },
-                { time: "14:00-15:30", title: "竹筏體驗", desc: "東河部落屋｜文化探險", icon: "compass", tag: "activity" },
-                { time: "15:30-17:30", title: "體驗部落晚宴", desc: "東河部落屋｜特色餐飲", icon: "utensils", tag: "dining" },
-                { time: "17:30-18:30", title: "搭車回禾風新棧飯店", desc: "首日圓滿落幕", icon: "bus", tag: "transport", action: "查看房間分配", actionType: "rooms" }
+                { time: "14:00-16:00", title: "竹筏體驗", desc: "東河部落屋｜文化探險", icon: "compass", tag: "activity" },
+                { time: "16:00-18:00", title: "體驗部落晚宴", desc: "東河部落屋｜特色餐飲", icon: "utensils", tag: "dining" },
+                { time: "18:00-19:00", title: "搭車回禾風新棧飯店", desc: "首日圓滿落幕", icon: "bus", tag: "transport", action: "查看房間分配", actionType: "rooms" }
             ]
         },
         2: {
@@ -29,13 +29,15 @@ const DATA = {
             title: "D3 達魯瑪克深度遊",
             items: [
                 { time: "09:30-10:00", title: "搭車至達魯瑪克部落", desc: "前往神祕魯凱族原鄉", icon: "bus", tag: "transport" },
-                { time: "10:00-19:00", title: "深度部落體驗", desc: "達魯瑪克部落一日行程", icon: "compass", tag: "activity", subItems: [
-                    "10:00 入村祈福 & 10:30 森林山徑探索",
-                    "12:00 獵寮區魯凱風味午餐",
-                    "14:00 頭目農場香椿醬 DIY",
-                    "16:15 傳統射箭體驗",
-                    "17:15-19:00 格瑟農莊魯凱音樂晚餐"
-                ]},
+                {
+                    time: "10:00-19:00", title: "深度部落體驗", desc: "達魯瑪克部落一日行程", icon: "compass", tag: "activity", subItems: [
+                        "10:00 入村祈福 & 10:30 森林山徑探索",
+                        "12:00 獵寮區魯凱風味午餐",
+                        "14:00 頭目農場香椿醬 DIY",
+                        "16:15 傳統射箭體驗",
+                        "17:15-19:00 格瑟農莊魯凱音樂晚餐"
+                    ]
+                },
                 { time: "19:00-19:30", title: "搭車回禾風新棧飯店", desc: "帶著滿載的回憶賦歸", icon: "bus", tag: "transport", action: "查看房間分配", actionType: "rooms" }
             ]
         },
@@ -55,7 +57,7 @@ const DATA = {
     activities: {
         kata: [
             { group: "燒琉璃珠 (15人)", limit: "限國小6年級以上", items: ["劉榕展 Tony", "林秉毅 Cookys", "彭書怡 Ariel", "黃庭儀 Tim", "鄭亦廷 James", "辜元泰 Clode", "李佩倫 Dawn", "阿淑霞", "陳希寧", "黃坊瑪", "林凱偉 Kevin", "鄭珮君 illie", "簡采驪 Rosy", "簡欣儀", "張家漢 Jimmy"] },
-            { group: "串珠體驗", limit: "", items: ["林裝恩"] },
+            { group: "串珠體驗", limit: "", items: ["林裝恩", "黃之盈"] },
             { group: "噴砂裝飾", limit: "", items: ["葉家郡 Jun", "蔡川海 Ray", "陳垂康 Chaika", "戴培芯", "林志堉 Doug", "辜文玥", "辜愛心", "辜于衿", "林建瑋 David", "劉姿吟 Kelly"] }
         ]
     },
@@ -64,25 +66,25 @@ const DATA = {
             {
                 table: "第一桌",
                 people: [
-                    { name: "林志堉 Doug", note: "" }, { name: "陳希寧", note: "林志堉家屬" }, { name: "林裝恩", note: "林志堉家屬" }, { name: "林維杰", note: "林志堉家屬" }, 
-                    { name: "黃坊瑪", note: "林志堉家屬/素食" }, { name: "彭書怡 Ariel", note: "" }, { name: "鄭珮君 illie", note: "" }, 
+                    { name: "林志堉 Doug", note: "" }, { name: "陳希寧", note: "林志堉家屬" }, { name: "林裝恩", note: "林志堉家屬" }, { name: "林維杰", note: "林志堉家屬" },
+                    { name: "黃坊瑪", note: "林志堉家屬/素食" }, { name: "彭書怡 Ariel", note: "" }, { name: "鄭珮君 illie", note: "" },
                     { name: "劉姿吟 Kelly", note: "" }, { name: "陳垂康 Chaika", note: "" }, { name: "戴培芯", note: "陳垂康家屬" }
                 ]
             },
             {
                 table: "第二桌",
                 people: [
-                    { name: "劉榕展 Tony", note: "" }, { name: "林秉毅 Cookys", note: "" }, { name: "辜元泰 Clode", note: "" }, 
-                    { name: "辜于衿", note: "辜元泰家屬" }, { name: "辜愛心", note: "辜元泰家屬" }, { name: "李佩倫 Dawn", note: "" }, 
-                    { name: "阿淑霞", note: "李佩倫家屬" }, { name: "辜文玥", note: "李佩倫家屬" }, { name: "簡采驪 Rosy", note: "" }, 
+                    { name: "劉榕展 Tony", note: "" }, { name: "林秉毅 Cookys", note: "" }, { name: "辜元泰 Clode", note: "" },
+                    { name: "辜于衿", note: "辜元泰家屬" }, { name: "辜愛心", note: "辜元泰家屬" }, { name: "李佩倫 Dawn", note: "" },
+                    { name: "阿淑霞", note: "李佩倫家屬" }, { name: "辜文玥", note: "李佩倫家屬" }, { name: "簡采驪 Rosy", note: "" },
                     { name: "簡欣儀", note: "簡采驪家屬" }
                 ]
             },
             {
                 table: "第三桌",
                 people: [
-                    { name: "鄭亦廷 James", note: "" }, { name: "蔡川海 Ray", note: "" }, { name: "林建瑋 David", note: "" }, 
-                    { name: "姜之盈", note: "林建瑋家屬" }, { name: "林兩蓁", note: "林建瑋家屬" }, { name: "黃庭儀 Tim", note: "" }, 
+                    { name: "鄭亦廷 James", note: "" }, { name: "蔡川海 Ray", note: "" }, { name: "林建瑋 David", note: "" },
+                    { name: "姜之盈", note: "林建瑋家屬" }, { name: "林兩蓁", note: "林建瑋家屬" }, { name: "黃庭儀 Tim", note: "" },
                     { name: "葉家郡 Jun", note: "" }, { name: "林凱偉 Kevin", note: "" }, { name: "張家漢 Jimmy", note: "" }
                 ]
             }
@@ -91,27 +93,27 @@ const DATA = {
             {
                 table: "第一桌",
                 people: [
-                    { name: "林志堉 Doug", note: "" }, { name: "陳希寧", note: "" }, { name: "林裝恩", note: "" }, { name: "林維杰", note: "" }, 
-                    { name: "黃坊瑪", note: "素食" }, { name: "彭書怡 Ariel", note: "" }, { name: "鄭珮君 illie", note: "" }, 
-                    { name: "劉姿吟 Kelly", note: "" }, { name: "陳垂康 Chaika", note: "" }, { name: "戴培芯", note: "" }, 
+                    { name: "林志堉 Doug", note: "" }, { name: "陳希寧", note: "" }, { name: "林裝恩", note: "" }, { name: "林維杰", note: "" },
+                    { name: "黃坊瑪", note: "素食" }, { name: "彭書怡 Ariel", note: "" }, { name: "鄭珮君 illie", note: "" },
+                    { name: "劉姿吟 Kelly", note: "" }, { name: "陳垂康 Chaika", note: "" }, { name: "戴培芯", note: "" },
                     { name: "張家漢 Jimmy", note: "" }
                 ]
             },
             {
                 table: "第二桌",
                 people: [
-                    { name: "劉榕展 Tony", note: "" }, { name: "林秉毅 Cookys", note: "" }, { name: "辜元泰 Clode", note: "" }, 
-                    { name: "辜于衿", note: "" }, { name: "辜愛心", note: "" }, { name: "李佩倫 Dawn", note: "" }, 
-                    { name: "阿淑霞", note: "" }, { name: "辜文玥", note: "" }, { name: "簡采驪 Rosy", note: "" }, 
+                    { name: "劉榕展 Tony", note: "" }, { name: "林秉毅 Cookys", note: "" }, { name: "辜元泰 Clode", note: "" },
+                    { name: "辜于衿", note: "" }, { name: "辜愛心", note: "" }, { name: "李佩倫 Dawn", note: "" },
+                    { name: "阿淑霞", note: "" }, { name: "辜文玥", note: "" }, { name: "簡采驪 Rosy", note: "" },
                     { name: "簡欣儀", note: "" }, { name: "吳承宇 Ayres", note: "" }
                 ]
             },
             {
                 table: "第三桌",
                 people: [
-                    { name: "鄭亦廷 James", note: "" }, { name: "蔡川海 Ray", note: "" }, { name: "林建瑋 David", note: "" }, 
-                    { name: "姜之盈", note: "" }, { name: "林兩蓁", note: "" }, { name: "黃庭儀 Tim", note: "" }, 
-                    { name: "葉家郡 Jun", note: "" }, { name: "林凱偉 Kevin", note: "" }, { name: "鄧梅嬋", note: "林凱偉家屬" }, 
+                    { name: "鄭亦廷 James", note: "" }, { name: "蔡川海 Ray", note: "" }, { name: "林建瑋 David", note: "" },
+                    { name: "姜之盈", note: "" }, { name: "林兩蓁", note: "" }, { name: "黃庭儀 Tim", note: "" },
+                    { name: "葉家郡 Jun", note: "" }, { name: "林凱偉 Kevin", note: "" }, { name: "鄧梅嬋", note: "林凱偉家屬" },
                     { name: "林子濬", note: "林凱偉家屬" }, { name: "林佑宸", note: "林凱偉家屬" }
                 ]
             }
