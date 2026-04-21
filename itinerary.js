@@ -3,6 +3,18 @@ const DATA = {
         1: {
             title: "D1 啟程．部落之光",
             items: [
+                {
+                    time: "07:00-11:32",
+                    title: "搭火車前往台東",
+                    desc: "抵達後自行至飯店大廳寄放行李休息",
+                    icon: "train-front",
+                    tag: "transport",
+                    subItems: [
+                        "板橋 408車次 07:06-11:10",
+                        "台中 371車次 07:00-11:32",
+                        "高雄 371車次 09:27-11:32"
+                    ]
+                },
                 { time: "12:00-13:55", title: "飯店餐廳用餐", desc: "禾風新棧度假飯店", icon: "utensils", tag: "dining", action: "查看桌位表", actionType: "seating_d1_lunch" },
                 { time: "13:00-14:00", title: "搭車至東河部落", desc: "開啟精彩旅程", icon: "bus", tag: "transport" },
                 { time: "14:00-16:00", title: "竹筏體驗", desc: "東河部落屋｜文化探險", icon: "compass", tag: "activity" },
@@ -46,11 +58,23 @@ const DATA = {
             items: [
                 { time: "09:30-10:00", title: "搭車至阿杜的店", desc: "龍田綠色隧道單車行", icon: "bus", tag: "transport" },
                 { time: "10:00-12:30", title: "龍田綠色隧道自行車導覽", desc: "在大樹下體驗最地道的慢活", icon: "compass", tag: "activity" },
-                { time: "12:00-12:30", title: "騎腳踏車至春耕源", desc: "轉場前往香草餐廳", icon: "bus", tag: "transport" },
-                { time: "12:30-14:00", title: "春耕源香草餐廳用餐", desc: "清新香草午味", icon: "utensils", tag: "dining" },
-                { time: "14:00-14:30", title: "歸還腳踏車", desc: "歸還租借裝備", icon: "bus", tag: "transport" },
+                { time: "12:00-12:30", title: "騎腳踏車至春耕源", desc: "轉場前往香草餐廳", icon: "bike", tag: "bicycle" },
+                { time: "12:30-14:00", title: "春耕源香草餐廳用餐", desc: "清新香草午味", icon: "utensils", tag: "dining", action: "🌍 Google Maps 地圖", actionLink: "https://maps.app.goo.gl/WQipAQXMnKGbqNEg7" },
+                { time: "14:00-14:30", title: "歸還腳踏車", desc: "歸還租借裝備", icon: "bike", tag: "bicycle", action: "🌍 Google Maps 地圖", actionLink: "https://maps.app.goo.gl/k9M3AXMmjymv4LTYA" },
                 { time: "14:30-15:00", title: "搭車回禾風新棧飯店", desc: "領取行李準備回程", icon: "bus", tag: "transport" },
-                { time: "15:30-16:35", title: "搭車至台東火車站", desc: "15:45 中南部同仁 / 16:20 北部同仁", icon: "bus", tag: "transport" }
+                { time: "15:30-16:35", title: "搭車至台東火車站", desc: "15:45 中南部同仁 / 16:20 北部同仁", icon: "bus", tag: "transport" },
+                {
+                    time: "16:00-21:37",
+                    title: "搭火車快樂賦歸",
+                    desc: "帶著滿載的回憶回到溫暖的家",
+                    icon: "train-front",
+                    tag: "transport",
+                    subItems: [
+                        "板橋 439車次 16:50-21:37",
+                        "台中 168車次 16:00-20:16",
+                        "高雄 168車次 16:00-17:46"
+                    ]
+                }
             ]
         }
     },
@@ -134,11 +158,30 @@ const DATA = {
         { type: "禾風雙人房", people: ["黃庭儀"], note: "" }
     ],
     notes: [
-        "🛶 D1 竹筏活動會有可能淋濕可以多帶件備用衣褲與穿著可沾濕的鞋子。",
-        "🌿 因活動大都為戶外，可以攜帶防蚊液、雨具。",
-        "💊 有暈車或暈船的話，可以自備暈車/船藥。",
-        "💧 遊覽車上有礦泉水，需要的人可以自取。",
-        "💻 提醒大家帶著筆電，預防突發狀況。"
+        {
+            category: "工作",
+            items: [
+                "💻 Sikax 團隊請隨身帶著筆電，以防突發狀況"
+            ]
+        },
+        {
+            category: "個人攜帶",
+            items: [
+                "🪥 請自備個人盥洗用具（牙刷、牙膏、洗面乳、刮鬍刀、梳子、浴帽等）。飯店會提供毛浴巾、沐浴洗髮用品。房內有重複使用的拖鞋，有衛生疑慮可自行攜帶",
+                "💊 請準備個人常備用藥。會暈船者請自備暈船藥（建議賞鯨前半小時服用）",
+                "🌿 戶外活動較多，準備防曬用品、防蚊液非常重要",
+                "🎒 建議隨身攜帶：遮陽帽、太陽眼鏡、防曬外套、飲用水、雨傘、行動電源、涼感紙巾或風扇等",
+                "💧 遊覽車上備有礦泉水，有需要的人可以自取"
+            ]
+        },
+        {
+            category: "活動天數D1-D3",
+            items: [
+                "🛶 (D1)竹筏體驗可能會弄濕身體，請多準備「一套備用衣物」及「一雙拖鞋或涼鞋」帶在身上",
+                "🪪 (D2)賞鯨出海會驗證身份，請務必攜帶「健保卡」及其他身份證明文件（身份證、駕照等）",
+                "👟 (D3)部落體驗建議穿著長褲及透氣排汗的衣物，好走耐髒的運動鞋或包鞋"
+            ]
+        }
     ]
 };
 
@@ -176,7 +219,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                 ${item.subItems.map(si => `<li style="margin-bottom:4px;">${si}</li>`).join('')}
                             </ul>
                         ` : ''}
-                        ${item.action ? `<button class="action-btn" onclick="handleAction('${item.actionType}')">${item.action}</button>` : ''}
+                        ${item.actionLink ? `<a href="${item.actionLink}" target="_blank" class="action-btn" style="text-decoration:none; display:flex; justify-content:center; align-items:center;">${item.action}</a>` : (item.action ? `<button class="action-btn" onclick="handleAction('${item.actionType}')">${item.action}</button>` : '')}
                     </div>
                 </div>
             `;
@@ -191,7 +234,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function getTagLabel(tag) {
-        const map = { transport: "坐車", activity: "活動", dining: "用餐" };
+        const map = { transport: "坐車", activity: "活動", dining: "用餐", bicycle: "腳踏車" };
         return map[tag] || "";
     }
 
@@ -236,11 +279,15 @@ document.addEventListener('DOMContentLoaded', () => {
         } else if (type === 'notes') {
             modalTitle.innerText = "出遊小叮嚀 ✨";
             let html = `<div style="padding-top: 10px;">`;
-            DATA.notes.forEach(note => {
-                html += `<div class="notes-item">${note}</div>`;
+            DATA.notes.forEach(group => {
+                html += `<h4 style="color: var(--accent); margin: 15px 0 10px 0; font-weight: 800; display: flex; align-items: center; gap: 6px;"><i data-lucide="bookmark" style="width:18px; height:18px;"></i> ${group.category}</h4>`;
+                group.items.forEach(note => {
+                    html += `<div class="notes-item">${note}</div>`;
+                });
             });
             html += `</div>`;
             modalBody.innerHTML = html;
+            lucide.createIcons();
         } else if (type.startsWith('seating_')) {
             const chart = DATA.seating[type];
             modalTitle.innerText = type === 'seating_d1_lunch' ? "D1 午餐座位分配表" : "D2 晚餐座位分配表";

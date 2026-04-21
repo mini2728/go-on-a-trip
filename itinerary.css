@@ -273,6 +273,7 @@ h1, h2, h3, .day-tabs {
 .tag-transport { background: #dbeafe; color: #1d4ed8; }
 .tag-activity { background: #dcfce7; color: #059669; }
 .tag-dining { background: #fff1f2; color: #e11d48; }
+.tag-bicycle { background: #fdf4ff; color: #c026d3; }
 
 .action-btn {
     display: block;
