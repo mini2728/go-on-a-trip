@@ -91,7 +91,7 @@ const DATA = {
                 table: "第一桌",
                 people: [
                     { name: "林志堉 Doug", note: "" }, { name: "陳希寧", note: "林志堉家屬" }, { name: "林裝恩", note: "林志堉家屬" }, { name: "林維杰", note: "林志堉家屬" },
-                    { name: "黃坊瑪", note: "林志堉家屬/素食" }, { name: "彭書怡 Ariel", note: "" }, { name: "鄭珮君 illie", note: "" },
+                    { name: "黃坊瑪", note: "林志堉家屬/素食" }, { name: "彭書怡 Ariel", note: "" }, { name: "黃庭儀 Tim", note: "" },
                     { name: "劉姿吟 Kelly", note: "" }, { name: "陳垂康 Chaika", note: "" }, { name: "戴培芯", note: "陳垂康家屬" }
                 ]
             },
@@ -108,7 +108,7 @@ const DATA = {
                 table: "第三桌",
                 people: [
                     { name: "鄭亦廷 James", note: "" }, { name: "蔡川海 Ray", note: "" }, { name: "林建瑋 David", note: "" },
-                    { name: "姜之盈", note: "林建瑋家屬" }, { name: "林兩蓁", note: "林建瑋家屬" }, { name: "黃庭儀 Tim", note: "" },
+                    { name: "姜之盈", note: "林建瑋家屬" }, { name: "林兩蓁", note: "林建瑋家屬" }, { name: "鄭珮君 illie", note: "" },
                     { name: "葉家郡 Jun", note: "" }, { name: "林凱偉 Kevin", note: "" }, { name: "張家漢 Jimmy", note: "" }
                 ]
             }
@@ -118,7 +118,7 @@ const DATA = {
                 table: "第一桌",
                 people: [
                     { name: "林志堉 Doug", note: "" }, { name: "陳希寧", note: "" }, { name: "林裝恩", note: "" }, { name: "林維杰", note: "" },
-                    { name: "黃坊瑪", note: "素食" }, { name: "彭書怡 Ariel", note: "" }, { name: "鄭珮君 illie", note: "" },
+                    { name: "黃坊瑪", note: "素食" }, { name: "彭書怡 Ariel", note: "" }, { name: "黃庭儀 Tim", note: "" },
                     { name: "劉姿吟 Kelly", note: "" }, { name: "陳垂康 Chaika", note: "" }, { name: "戴培芯", note: "" },
                     { name: "張家漢 Jimmy", note: "" }
                 ]
@@ -136,7 +136,7 @@ const DATA = {
                 table: "第三桌",
                 people: [
                     { name: "鄭亦廷 James", note: "" }, { name: "蔡川海 Ray", note: "" }, { name: "林建瑋 David", note: "" },
-                    { name: "姜之盈", note: "" }, { name: "林兩蓁", note: "" }, { name: "黃庭儀 Tim", note: "" },
+                    { name: "姜之盈", note: "" }, { name: "林兩蓁", note: "" }, { name: "鄭珮君 illie", note: "" },
                     { name: "葉家郡 Jun", note: "" }, { name: "林凱偉 Kevin", note: "" }, { name: "鄧梅嬋", note: "林凱偉家屬" },
                     { name: "林子濬", note: "林凱偉家屬" }, { name: "林佑宸", note: "林凱偉家屬" }
                 ]
