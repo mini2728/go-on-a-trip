@@ -15,11 +15,11 @@ const DATA = {
                         "高雄 371車次 09:27-11:32"
                     ]
                 },
-                { time: "12:00-13:55", title: "飯店餐廳用餐", desc: "禾風新棧度假飯店", icon: "utensils", tag: "dining", action: "查看桌位表", actionType: "seating_d1_lunch" },
-                { time: "13:00-14:00", title: "搭車至東河部落", desc: "開啟精彩旅程", icon: "bus", tag: "transport" },
-                { time: "14:00-16:00", title: "竹筏體驗", desc: "東河部落屋｜文化探險", icon: "compass", tag: "activity" },
-                { time: "16:00-18:00", title: "體驗部落晚宴", desc: "東河部落屋｜特色餐飲", icon: "utensils", tag: "dining" },
-                { time: "18:00-19:00", title: "搭車回禾風新棧飯店", desc: "首日圓滿落幕", icon: "bus", tag: "transport", action: "查看房間分配", actionType: "rooms" }
+                { time: "12:00-13:30", title: "飯店餐廳用餐", desc: "禾風新棧度假飯店", icon: "utensils", tag: "dining", action: "查看桌位表", actionType: "seating_d1_lunch" },
+                { time: "13:30-14:30", title: "搭車至東河部落", desc: "開啟精彩旅程", icon: "bus", tag: "transport" },
+                { time: "14:30-16:30", title: "竹筏體驗", desc: "東河部落屋｜文化探險", icon: "compass", tag: "activity" },
+                { time: "16:30-18:30", title: "體驗部落晚宴", desc: "東河部落屋｜特色餐飲", icon: "utensils", tag: "dining" },
+                { time: "18:30-19:30", title: "搭車回禾風新棧飯店", desc: "首日圓滿落幕", icon: "bus", tag: "transport", action: "查看房間分配", actionType: "rooms" }
             ]
         },
         2: {
