@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const feedbackForm = document.getElementById('feedback-form-container');
     const successScreen = document.getElementById('success-screen');
     const userNameInput = document.getElementById('user-name');
+    const overallSuggestionInput = document.getElementById('overall-suggestion');
 
     // 資料儲存結構：{ "itemId": { title, attended, rating, comment } }
     const feedbackDataStore = {};
@@ -153,8 +154,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const GAS_URL = 'https://script.google.com/macros/s/AKfycby1ip0qI9i4kwlRAVDh7J9KrpyXzKodwqqB7hiDWVMXNin708FbPkSH1-N-SLc8D4Qn/exec';
 
         const finalSubmission = {
-            type: 'trip_feedback', // 區分資料類型
+            type: 'trip_feedback',
             user: name,
+            overallSuggestion: overallSuggestionInput.value.trim(), // 整體建議
             feedbacks: feedbackDataStore,
             timestamp: new Date().toISOString()
         };
@@ -191,10 +193,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             } catch (err) { console.error('GAS Sync Error:', err); }
 
-            // 存入 LocalStorage 備份
             localStorage.setItem('trip_feedback_all', JSON.stringify(finalSubmission));
 
-            // 顯示成功畫面
             feedbackForm.classList.add('fade-out');
             setTimeout(() => {
                 feedbackForm.classList.add('hidden');
