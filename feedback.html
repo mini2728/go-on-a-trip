@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>2026 員工旅遊評分與回饋</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Outfit:wght@400;600;700&display=swap"
+        rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="itinerary.css">
+    <link rel="stylesheet" href="feedback.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- 背景裝飾 -->
+        <div class="bg-decoration">
+            <div class="glow-sphere sphere-1"></div>
+            <div class="glow-sphere sphere-2"></div>
+        </div>
+
+        <!-- 頂部導覽 -->
+        <header class="app-header">
+            <div class="header-content">
+                <div class="header-title-area">
+                    <h1>旅程評分與回饋</h1>
+                    <p>YOUR FEEDBACK MATTERS</p>
+                </div>
+                <a href="itinerary.html" class="info-btn" style="text-decoration: none;">
+                    <i data-lucide="arrow-left"></i>
+                </a>
+            </div>
+        </header>
+
+        <!-- 主要內容區域 -->
+        <main class="content-view">
+            <div id="feedback-form-container" class="fade-in">
+                <!-- 姓名輸入 (保留) -->
+                <section class="feedback-card">
+                    <div class="card-header">
+                        <h2 class="section-title">您的姓名</h2>
+                        <p class="section-subtitle">請填寫您的稱呼</p>
+                    </div>
+                    <input type="text" class="feedback-input" id="user-name" placeholder="例如：林大明 / Tony">
+                </section>
+
+                <!-- 動態生成的評分卡片容器 -->
+                <div id="feedback-items-container">
+                    <!-- 由 JS 根據 DATA.itinerary 動態生成內容 -->
+                </div>
+
+                <button class="submit-btn" id="submit-feedback" style="margin-top: 20px;">
+                    <span class="btn-text">提交所有回饋</span>
+                    <i data-lucide="send"></i>
+                </button>
+            </div>
+
+            <!-- 成功訊息 (預設隱藏) -->
+            <div id="success-screen" class="success-screen hidden">
+                <div class="success-content">
+                    <div class="success-icon">
+                        <i data-lucide="check-circle"></i>
+                    </div>
+                    <h2>提交成功！</h2>
+                    <p>感謝您的寶貴意見，我們會繼續努力做得更好。</p>
+                    <button class="back-btn" onclick="window.location.href='itinerary.html'">回到行程表</button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="itinerary.js"></script>
+    <script src="feedback.js"></script>
+    <script>
+        // 初始化 Lucide 圖示
+        lucide.createIcons();
+    </script>
+</body>
+
+</html>
