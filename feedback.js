@@ -127,7 +127,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // 2. 提交並同步資料
+    let submitted = false;
+
     submitBtn.addEventListener('click', async () => {
+        if (submitted) return;
+
         const name = userNameInput.value.trim();
         if (!name) {
             alert('請先填寫您的姓名！');
@@ -171,29 +175,40 @@ document.addEventListener('DOMContentLoaded', () => {
 
         try {
             submitBtn.disabled = true;
-            submitBtn.innerHTML = '<span class="btn-text">正在同步資料...</span>';
+            submitBtn.innerHTML = '<span class="btn-text">正在送出...</span>';
 
-            if (!navigator.onLine) throw new Error('目前無網路連線');
+            if (!navigator.onLine) throw new Error('目前沒有網路連線，請連線後再送出');
 
-            // 1. 同步至 Slack
+            // 1. 寫入 Google 試算表：確認伺服器收到才算成功
+            let gasRes;
+            try {
+                gasRes = await fetch(GAS_URL, {
+                    method: 'POST',
+                    mode: 'cors',
+                    cache: 'no-cache',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify(finalSubmission)
+                });
+            } catch (err) {
+                console.error('GAS Sync Error:', err);
+                throw new Error('連不上伺服器，可能被廣告阻擋器或公司防火牆擋住');
+            }
+            if (!gasRes.ok) {
+                throw new Error('伺服器回應 ' + gasRes.status + '，回饋沒有寫入');
+            }
+
+            // 2. 內部通知：失敗不影響回饋結果
             try {
                 await fetch(SLACK_WEBHOOK_URL, {
                     method: 'POST',
-                    mode: 'no-cors',
+                    mode: 'cors',
+                    cache: 'no-cache',
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(slackMessage)
                 });
             } catch (err) { console.error('Slack Sync Error:', err); }
 
-            // 2. 同步至 Google Sheets (GAS)
-            try {
-                await fetch(GAS_URL, {
-                    method: 'POST',
-                    mode: 'no-cors',
-                    body: JSON.stringify(finalSubmission)
-                });
-            } catch (err) { console.error('GAS Sync Error:', err); }
-
-            localStorage.setItem('trip_feedback_all', JSON.stringify(finalSubmission));
+            submitted = true;
 
             feedbackForm.classList.add('fade-out');
             setTimeout(() => {
@@ -203,11 +218,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
         } catch (error) {
             console.error('Submission failed:', error);
-            alert(`⚠️ 程序中斷: ${error.message}`);
+            alert('回饋尚未送出：' + error.message + '。資料仍保留在畫面上，排除問題後請再按一次送出。');
         } finally {
-            submitBtn.disabled = false;
-            submitBtn.innerHTML = '<span class="btn-text">提交所有回饋</span><i data-lucide="send"></i>';
-            lucide.createIcons();
+            if (!submitted) {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<span class="btn-text">提交所有回饋</span><i data-lucide="send"></i>';
+                lucide.createIcons();
+            }
         }
     });
 

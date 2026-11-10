@@ -37,12 +37,18 @@ document.addEventListener('DOMContentLoaded', () => {
         return age < 0 ? 0 : age;
     }
 
+    // 使用者輸入一律跳脫後才放進畫面，避免被當成網頁標記執行
+    function esc(v) {
+        return String(v == null ? '' : v).replace(/[&<>"']/g, c => ({
+            '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+        })[c]);
+    }
+
     function saveState() {
         const familyElements = document.querySelectorAll('.family-item');
+        // 身分證字號與生日屬個人資料，不寫入瀏覽器本機儲存
         const families = Array.from(familyElements).map(item => ({
             name: item.querySelector('.f-name').value,
-            id: item.querySelector('.f-id').value,
-            birthday: item.querySelector('.f-birthday').value,
             height: item.querySelector('.f-height').value,
             diet: item.querySelector('.f-diet').value
         }));
@@ -50,8 +56,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const state = {
             participationStatus: participationStatus.value,
             empName: document.getElementById('empName').value,
-            empID: document.getElementById('empID').value,
-            empBirthday: document.getElementById('empBirthday').value,
             empHeight: document.getElementById('empHeight').value,
             joinDate: document.getElementById('joinDate').value,
             departure: document.getElementById('departure').value,
@@ -69,10 +73,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
         try {
             const state = JSON.parse(stateStr);
+
+            // 清除舊版本殘留在本機的個人資料
+            const legacy = ('empID' in state) || ('empBirthday' in state) ||
+                (Array.isArray(state.families) && state.families.some(f => ('id' in f) || ('birthday' in f)));
+            if (legacy) {
+                delete state.empID;
+                delete state.empBirthday;
+                if (Array.isArray(state.families)) {
+                    state.families.forEach(f => { delete f.id; delete f.birthday; });
+                }
+                localStorage.setItem('tripRegistrationState', JSON.stringify(state));
+            }
+
             if (state.participationStatus) participationStatus.value = state.participationStatus;
             if (state.empName) document.getElementById('empName').value = state.empName;
-            if (state.empID) document.getElementById('empID').value = state.empID;
-            if (state.empBirthday) document.getElementById('empBirthday').value = state.empBirthday;
             if (state.empHeight) document.getElementById('empHeight').value = state.empHeight;
             if (state.joinDate) document.getElementById('joinDate').value = state.joinDate;
             if (state.departure) document.getElementById('departure').value = state.departure;
@@ -84,8 +99,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 state.families.forEach(f => {
                     const familyItem = addFamilyItem();
                     if (f.name) familyItem.querySelector('.f-name').value = f.name;
-                    if (f.id) familyItem.querySelector('.f-id').value = f.id;
-                    if (f.birthday) familyItem.querySelector('.f-birthday').value = f.birthday;
                     if (f.height) familyItem.querySelector('.f-height').value = f.height;
                     if (f.diet) familyItem.querySelector('.f-diet').value = f.diet;
                 });
@@ -242,7 +255,7 @@ document.addEventListener('DOMContentLoaded', () => {
             summaryContent.innerHTML = `
                 <div style="background: rgba(3, 173, 201, 0.05); padding: 20px; border-radius: 12px; text-align: center;">
                     <div style="font-size: 1.2rem; color: #03adc9; font-weight: 600; margin-bottom: 10px;">🏠 正常上班</div>
-                    <div style="color: #1e293b; font-weight: 500; margin-bottom: 5px;">員工姓名：${empName || '(尚未填寫)'}</div>
+                    <div style="color: #1e293b; font-weight: 500; margin-bottom: 5px;">員工姓名：${esc(empName) || '(尚未填寫)'}</div>
                     <div style="color: var(--text-muted);">不參加此次員工旅遊</div>
                 </div>
             `;
@@ -316,8 +329,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         summaryLines.push(`
             <div class="summary-group">
-                <div class="summary-item main-line"><span class="label">員工本人 (${empDiet} / ${empAge}歲 / ${empHeight}cm)</span><span class="value">${empData.total.toLocaleString()}元</span></div>
-                <div style="font-size: 0.75rem; color: #888; padding-left: 10px;">ID: ${empID || '未填'} / 生日: ${empBirthday || '未填'}</div>
+                <div class="summary-item main-line"><span class="label">員工本人 (${esc(empDiet)} / ${empAge}歲 / ${empHeight}cm)</span><span class="value">${empData.total.toLocaleString()}元</span></div>
+                <div style="font-size: 0.75rem; color: #888; padding-left: 10px;">ID: ${esc(empID) || '未填'} / 生日: ${esc(empBirthday) || '未填'}</div>
                 <div class="details-list">
                     ${empData.details.map(d => `<div>${d.label}: ${d.val.toLocaleString()}元</div>`).join('')}
                 </div>
@@ -367,8 +380,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
             summaryLines.push(`
                 <div class="summary-group">
-                    <div class="summary-item main-line"><span class="label">${name} (${diet} / ${age}歲 / ${height}cm)</span><span class="value">${fData.total.toLocaleString()}元</span></div>
-                    <div style="font-size: 0.75rem; color: #888; padding-left: 10px;">ID: ${idNumber || '未填'} / 生日: ${birthday || '未填'}</div>
+                    <div class="summary-item main-line"><span class="label">${esc(name)} (${esc(diet)} / ${age}歲 / ${height}cm)</span><span class="value">${fData.total.toLocaleString()}元</span></div>
+                    <div style="font-size: 0.75rem; color: #888; padding-left: 10px;">ID: ${esc(idNumber) || '未填'} / 生日: ${esc(birthday) || '未填'}</div>
                     <div class="details-list">
                         ${fData.details.map(d => `<div>${d.label}: ${d.val.toLocaleString()}元</div>`).join('')}
                     </div>
@@ -397,7 +410,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // 提交功能
+    let submitted = false;
+
     submitBtn.addEventListener('click', async () => {
+        if (submitted) return;
+
         // 先執行原生表單驗證
         if (!registrationForm.reportValidity()) {
             return;
@@ -427,38 +444,45 @@ document.addEventListener('DOMContentLoaded', () => {
 
         try {
             submitBtn.disabled = true;
-            submitBtn.textContent = '⏳ 正在同步資料...';
+            submitBtn.textContent = '正在送出...';
 
             if (!navigator.onLine) {
-                throw new Error('目前無網路連線');
+                throw new Error('目前沒有網路連線，請連線後再送出');
             }
 
-            let errors = [];
-
-            // 1. 先發送到 Slack (在下載之前)
+            // 1. 寫入 Google 試算表：這是正式紀錄，一定要等伺服器確認收到才算報名成功
+            const gasUrl = 'https://script.google.com/macros/s/AKfycby1ip0qI9i4kwlRAVDh7J9KrpyXzKodwqqB7hiDWVMXNin708FbPkSH1-N-SLc8D4Qn/exec';
+            let gasRes;
             try {
-                await fetch(SLACK_WEBHOOK_URL, {
+                gasRes = await fetch(gasUrl, {
                     method: 'POST',
-                    mode: 'no-cors',
+                    mode: 'cors',
                     cache: 'no-cache',
-                    body: JSON.stringify(slackMessage)
-                });
-            } catch (err) {
-                console.error('Slack Error:', err);
-                errors.push(`Slack 傳送失敗 (${err.message || '連線被阻擋'})`);
-            }
-
-            // 2. 發送到 Google Sheets
-            try {
-                const gasUrl = 'https://script.google.com/macros/s/AKfycby1ip0qI9i4kwlRAVDh7J9KrpyXzKodwqqB7hiDWVMXNin708FbPkSH1-N-SLc8D4Qn/exec';
-                await fetch(gasUrl, {
-                    method: 'POST',
-                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                     body: JSON.stringify(data)
                 });
             } catch (err) {
                 console.error('GAS Error:', err);
-                errors.push(`Google 同步失敗 (${err.message || '連線被阻擋'})`);
+                throw new Error('連不上報名伺服器，可能被廣告阻擋器或公司防火牆擋住');
+            }
+            if (!gasRes.ok) {
+                throw new Error('報名伺服器回應 ' + gasRes.status + '，資料沒有寫入');
+            }
+
+            // 2. 內部通知：送不出去不影響報名結果，只標記
+            let notifyFailed = false;
+            try {
+                const notifyRes = await fetch(SLACK_WEBHOOK_URL, {
+                    method: 'POST',
+                    mode: 'cors',
+                    cache: 'no-cache',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(slackMessage)
+                });
+                notifyFailed = !notifyRes.ok;
+            } catch (err) {
+                console.error('Slack Error:', err);
+                notifyFailed = true;
             }
 
             // 3. 最後才執行檔案下載 (以免下載行為干擾 fetch 執行)
@@ -476,18 +500,22 @@ document.addEventListener('DOMContentLoaded', () => {
                 setTimeout(() => URL.revokeObjectURL(url), 1000);
             }, 500);
 
-            if (errors.length === 0) {
-                alert('✅ 報告：資料已成功同步，並已觸發 JSON 備份檔下載。');
-            } else {
-                alert(`⚠️ 同步程序有誤：\n${errors.join('\n')}\n\n這通常是手機端的廣告阻擋器 (如 AdGuard) 或公司防火牆擋住了伺服器請求。`);
-            }
+            submitted = true;
+            submitBtn.disabled = true;
+            submitBtn.textContent = '已送出，請勿重複提交';
+
+            alert(notifyFailed
+                ? '報名已送出，伺服器確認收到，備份檔開始下載。（內部通知未送達，不影響報名結果）'
+                : '報名已送出，伺服器確認收到，備份檔開始下載。');
 
         } catch (error) {
-            console.error('執行過程中斷:', error);
-            alert(`⚠️ 程序中斷: ${error.message}`);
+            console.error('送出失敗:', error);
+            alert('報名尚未完成：' + error.message + '。資料仍保留在畫面上，排除問題後請再按一次送出。');
         } finally {
-            submitBtn.disabled = false;
-            submitBtn.innerHTML = '<span class="icon">🚀</span> 提交登記資料';
+            if (!submitted) {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<span class="icon">🚀</span> 提交登記資料';
+            }
         }
     });
 
